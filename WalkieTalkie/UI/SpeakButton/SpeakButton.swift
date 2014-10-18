@@ -24,8 +24,8 @@ class SpeakButton : UIView {
             return overlayButton.enabled
         }
         set{
-            self.updateTitleLabel()
             overlayButton.enabled = newValue
+            self.updateTitleLabel()
             self.backgroundColor = UIColor.lightGrayColor()
         }
     }
@@ -41,6 +41,13 @@ class SpeakButton : UIView {
         self.linkEvents()
         
         self.layer.cornerRadius = 10.0;
+        self.layer.borderWidth = 3.0
+        self.layer.borderColor = UIColor.blackColor().CGColor
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        self.layer.cornerRadius = self.frame.width / 2.0
     }
     
     required init(coder aDecoder: NSCoder) {
@@ -72,7 +79,7 @@ class SpeakButton : UIView {
             newText = "ON AIR"
             
         case (_, false):
-            newText = "SPEAK"
+            newText = "HOLD \n&\n SPEAK"
             
         default:
             newText = ""

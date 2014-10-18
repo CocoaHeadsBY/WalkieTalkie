@@ -22,8 +22,8 @@
                         <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                     </state>
                 </button>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="SPEAK" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FZU-6F-b7n">
-                    <rect key="frame" x="38" y="73" width="125" height="54"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="HOLD and SPEAK" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" minimumScaleFactor="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="FZU-6F-b7n">
+                    <rect key="frame" x="19" y="19" width="162" height="162"/>
                     <fontDescription key="fontDescription" name="Avenir-Heavy" family="Avenir" pointSize="39"/>
                     <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <nil key="highlightedColor"/>
@@ -33,16 +33,25 @@
             </subviews>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="BwU-f6-jgf" secondAttribute="trailing" id="3yJ-qU-r56"/>
+                <constraint firstItem="FZU-6F-b7n" firstAttribute="top" secondItem="Uhf-ev-X36" secondAttribute="top" constant="18" id="42p-Up-omq"/>
                 <constraint firstAttribute="bottom" secondItem="BwU-f6-jgf" secondAttribute="bottom" id="4AR-NL-gph"/>
+                <constraint firstAttribute="trailing" secondItem="FZU-6F-b7n" secondAttribute="trailing" constant="19" id="956-f1-AEq"/>
+                <constraint firstItem="FZU-6F-b7n" firstAttribute="leading" secondItem="Uhf-ev-X36" secondAttribute="leading" constant="19" id="CeE-aA-X6f"/>
                 <constraint firstAttribute="centerX" secondItem="FZU-6F-b7n" secondAttribute="centerX" id="E9I-Do-Iiw"/>
                 <constraint firstAttribute="centerY" secondItem="FZU-6F-b7n" secondAttribute="centerY" id="SMo-wn-4Ge"/>
                 <constraint firstItem="BwU-f6-jgf" firstAttribute="leading" secondItem="Uhf-ev-X36" secondAttribute="leading" id="iqP-PC-zFH"/>
                 <constraint firstItem="BwU-f6-jgf" firstAttribute="top" secondItem="Uhf-ev-X36" secondAttribute="top" id="myS-3U-utT"/>
+                <constraint firstAttribute="bottom" secondItem="FZU-6F-b7n" secondAttribute="bottom" constant="19" id="oN3-WE-28s"/>
             </constraints>
             <nil key="simulatedStatusBarMetrics"/>
             <nil key="simulatedTopBarMetrics"/>
             <nil key="simulatedBottomBarMetrics"/>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <variation key="default">
+                <mask key="constraints">
+                    <exclude reference="42p-Up-omq"/>
+                </mask>
+            </variation>
             <point key="canvasLocation" x="121" y="178"/>
         </view>
     </objects>

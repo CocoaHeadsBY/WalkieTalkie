@@ -13,6 +13,7 @@
 		50ECCE2019F18C38007A65D5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50ECCE1E19F18C38007A65D5 /* LaunchScreen.xib */; };
 		50ECCE2C19F18C38007A65D5 /* WalkieTalkieTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ECCE2B19F18C38007A65D5 /* WalkieTalkieTests.swift */; };
 		50ECCE6619F1AE29007A65D5 /* SessionContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ECCE6519F1AE29007A65D5 /* SessionContainer.swift */; };
+		651214DD19F2FC2800F52801 /* PulseCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 651214DC19F2FC2800F52801 /* PulseCircle.swift */; };
 		6530BBA619F2AB6700C4AF2D /* UIButton+BackgroundColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6530BBA519F2AB6700C4AF2D /* UIButton+BackgroundColor.swift */; };
 		6530BBA819F2B45A00C4AF2D /* SpeakButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6530BBA719F2B45A00C4AF2D /* SpeakButton.xib */; };
 		654C99F219F271AF0091BA06 /* SpeakButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654C99F119F271AF0091BA06 /* SpeakButton.swift */; };
@@ -43,6 +44,7 @@
 		50ECCE2A19F18C38007A65D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50ECCE2B19F18C38007A65D5 /* WalkieTalkieTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkieTalkieTests.swift; sourceTree = "<group>"; };
 		50ECCE6519F1AE29007A65D5 /* SessionContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionContainer.swift; sourceTree = "<group>"; };
+		651214DC19F2FC2800F52801 /* PulseCircle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PulseCircle.swift; sourceTree = "<group>"; };
 		6530BBA519F2AB6700C4AF2D /* UIButton+BackgroundColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIButton+BackgroundColor.swift"; path = "extensions/UIButton+BackgroundColor.swift"; sourceTree = "<group>"; };
 		6530BBA719F2B45A00C4AF2D /* SpeakButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SpeakButton.xib; sourceTree = "<group>"; };
 		654C99F119F271AF0091BA06 /* SpeakButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeakButton.swift; sourceTree = "<group>"; };
@@ -132,6 +134,15 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		651214DB19F2FC0700F52801 /* PulseCircle */ = {
+			isa = PBXGroup;
+			children = (
+				651214DC19F2FC2800F52801 /* PulseCircle.swift */,
+			);
+			name = PulseCircle;
+			path = UI/PulseCircle;
+			sourceTree = "<group>";
+		};
 		6530BBA419F2AB2200C4AF2D /* extensions */ = {
 			isa = PBXGroup;
 			children = (
@@ -147,6 +158,7 @@
 				50ECCE1E19F18C38007A65D5 /* LaunchScreen.xib */,
 				50ECCE1919F18C38007A65D5 /* Main.storyboard */,
 				654C99F519F27ED70091BA06 /* MasterViewController.swift */,
+				651214DB19F2FC0700F52801 /* PulseCircle */,
 				654C99F019F271930091BA06 /* SpeakButton */,
 			);
 			name = UI;
@@ -271,6 +283,7 @@
 				6530BBA619F2AB6700C4AF2D /* UIButton+BackgroundColor.swift in Sources */,
 				8FA06F7119F2BD7C001E99BD /* AudioQueue.m in Sources */,
 				50ECCE1419F18C38007A65D5 /* AppDelegate.swift in Sources */,
+				651214DD19F2FC2800F52801 /* PulseCircle.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
