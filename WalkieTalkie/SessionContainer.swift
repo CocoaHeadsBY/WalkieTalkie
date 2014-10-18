@@ -20,11 +20,28 @@ class SessionContainer: NSObject, MCSessionDelegate {
     let serviceType = "CocoaHeadsBY"
     var advertiser: MCAdvertiserAssistant
     var session: MCSession
-    var peerID: MCPeerID
+
+    var peerID: MCPeerID = {
+        let defaults = NSUserDefaults.standardUserDefaults()
+        var peer: MCPeerID?
+
+        if let dataToShow = defaults.dataForKey("kPeerID") {
+            peer = NSKeyedUnarchiver.unarchiveObjectWithData(dataToShow) as? MCPeerID
+        }
+
+        if peer == nil {
+            peer = MCPeerID(displayName: UIDevice.currentDevice().name)
+            let data: NSData = NSKeyedArchiver.archivedDataWithRootObject(peer!)
+            defaults.setObject(data, forKey: "kPeerID")
+            defaults.synchronize()
+        }
+
+        return peer!
+        }()
+
     weak var delegate: SessionContainerDelegate?
 
     override init() {
-        self.peerID = MCPeerID(displayName: UIDevice.currentDevice().name)
         self.session = MCSession(peer: self.peerID)
         self.advertiser = MCAdvertiserAssistant(serviceType: self.serviceType, discoveryInfo: nil, session: self.session)
         super.init()
