@@ -9,7 +9,7 @@
 import UIKit
 import MultipeerConnectivity
 
-class MasterViewController: UIViewController, UITableViewDataSource, MCBrowserViewControllerDelegate, SessionContainerDelegate {
+class MasterViewController: UIViewController, UITableViewDataSource, MCBrowserViewControllerDelegate, SessionContainerDelegate, SpeakButtonDelegate {
     @IBOutlet weak var tableView: UITableView!
     var connectedPeers = NSMutableArray()
     var audioEngine = AudioEngine()
@@ -69,6 +69,20 @@ class MasterViewController: UIViewController, UITableViewDataSource, MCBrowserVi
 
         let browseButton = UIBarButtonItem(barButtonSystemItem: .Search, target: self, action: "showBrowser")
         self.navigationItem.rightBarButtonItem = browseButton
+    }
+
+    // MARK: SpeakButtonDelegate
+
+    func speakButtonWasTouched(speakButton: SpeakButton) {
+        self.audioEngine.startRecord { [weak self] (dataToSend) -> () in
+            if let strongSelf = self {
+                strongSelf.sessionContainer.sendData(dataToSend)
+            }
+        }
+    }
+
+    func speakButtonWasReleased(speakButton: SpeakButton) {
+        self.audioEngine.stopRecord()
     }
 
     // MARK: - UITableViewDataSource

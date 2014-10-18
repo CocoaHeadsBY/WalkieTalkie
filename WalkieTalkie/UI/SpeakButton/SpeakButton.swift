@@ -9,18 +9,14 @@
 import Foundation
 import UIKit
 
-
-protocol SpeakButtonDelegate : class {
-    
+@objc protocol SpeakButtonDelegate {
     func speakButtonWasTouched(speakButton: SpeakButton)
     func speakButtonWasReleased(speakButton: SpeakButton)
 }
 
 class SpeakButton : UIView {
-
     @IBOutlet weak var overlayButton : UIButton!
-    
-    weak var delegate : SpeakButtonDelegate?
+    @IBOutlet weak var delegate: SpeakButtonDelegate?
 
     func linkEvents(){
 
