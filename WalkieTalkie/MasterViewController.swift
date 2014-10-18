@@ -59,7 +59,7 @@ class MasterViewController: UITableViewController, MCBrowserViewControllerDelega
 
   // MARK: SessionContainerDelegate
 
-  func sessionContainer(_: SessionContainer, didReceive data: NSData, peer peerID: MCPeerID) {
+  func sessionContainer(SessionContainer, didReceive data: NSData, peer peerID: protocol<NSObjectProtocol, NSCopying>) {
 
   }
 
