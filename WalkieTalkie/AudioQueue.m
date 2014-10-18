@@ -81,7 +81,7 @@ static void audioQueueInputCallback(void *                          inUserData,
 }
 
 - (void)queueInputBuffer:(AudioQueueBufferRef)buffer startTime:(const AudioTimeStamp *)startTime numberPackets:(UInt32)numberPackets packetDescs:(const AudioStreamPacketDescription *)descs {
-    if (_dataProducedBlock) {
+    if (_dataProducedBlock && buffer->mAudioDataByteSize) {
         NSMutableData *ts = [NSMutableData dataWithBytes:(void *)&startTime->mSampleTime length:sizeof(startTime->mSampleTime)];
         [ts appendBytes:buffer->mAudioData length:buffer->mAudioDataByteSize];
         _dataProducedBlock(ts);
@@ -166,7 +166,16 @@ static void audioQueueOutputCallback(void *                  inUserData,
     OSStatus st = AudioQueueEnqueueBuffer(decoderQueue, inputBuffer, 1, &packetDescription);
     NSAssert(st == noErr, @"AudioQueueEnqueueBuffer failed with err %d", (int)st);
     st = AudioQueueOfflineRender(decoderQueue, &ts, outputBuffer, 4096);
-    NSAssert(st == noErr, @"AudioQueueOfflineRender failed with err %d", (int)st);
+    if (st == noErr) {
+        memcpy(buffer.mutableAudioBufferList->mBuffers[0].mData, outputBuffer->mAudioData, outputBuffer->mAudioDataByteSize);
+        buffer.mutableAudioBufferList->mBuffers[0].mDataByteSize = outputBuffer->mAudioDataByteSize;
+        buffer.frameLength = outputBuffer->mAudioDataByteSize / 2;
+    }
+    else {
+        buffer.frameLength = 0;
+    }
+    NSLog(@"AudioQueueOfflineRender st = %d", (int)st);
+    //NSAssert(st == noErr, @"AudioQueueOfflineRender failed with err %d", (int)st);
 }
 
 - (void)queueOutputBuffer:(AudioQueueBufferRef)buffer {
