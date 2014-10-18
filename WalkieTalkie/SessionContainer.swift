@@ -76,6 +76,11 @@ class SessionContainer: NSObject, MCSessionDelegate {
         self.delegate?.sessionContainerDidUpdateListOfConnectedPeers(self)
     }
 
+    // http://stackoverflow.com/a/19696074/434224
+    func session(session: MCSession!, didReceiveCertificate certificate: [AnyObject]!, fromPeer peerID: MCPeerID!, certificateHandler: ((Bool) -> Void)!) {
+        certificateHandler(true)
+    }
+
     // Methods required to be implemented by protocol, but we are not interested in
     func session(session: MCSession!, didStartReceivingResourceWithName resourceName: String!, fromPeer peerID: MCPeerID!, withProgress progress: NSProgress!) {}
     func session(session: MCSession!, didFinishReceivingResourceWithName resourceName: String!, fromPeer peerID: MCPeerID!, atURL localURL: NSURL!, withError error: NSError!) {}
