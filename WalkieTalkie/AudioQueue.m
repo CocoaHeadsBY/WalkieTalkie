@@ -66,7 +66,7 @@ static void audioQueueInputCallback(void *                          inUserData,
                            0 /* flags */, &inputQueue);
         NSAssert(st == noErr, @"st = %d", (int)st);
         for (int i = 0; i < 3; ++i) {
-            st = AudioQueueAllocateBuffer(inputQueue, 2048, &aqBuffers[i]);
+            st = AudioQueueAllocateBuffer(inputQueue, 256, &aqBuffers[i]);
             NSAssert(st == noErr, @"AudioQueueAllocateBuffer failed with err %d", (int)st);
             st = AudioQueueEnqueueBuffer(inputQueue, aqBuffers[i], 0, NULL);
             NSAssert(st == noErr, @"AudioQueueEnqueueBuffer failed with err %d", (int)st);
