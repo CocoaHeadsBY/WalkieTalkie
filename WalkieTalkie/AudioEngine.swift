@@ -13,6 +13,9 @@ import MultipeerConnectivity
 class AudioPlayerDecoder {
     var audioPlayer = AVAudioPlayerNode()
     func decodeAndPlay(data: NSData) {
+        let buffer = AVAudioPCMBuffer()
+
+        audioPlayer.scheduleBuffer(buffer, completionHandler: {})
     }
 }
 
@@ -21,26 +24,14 @@ public typealias CompressedDataClosure = (dataToSend: NSData) -> ()
 public class AudioEngine: PeerCommunicationDelegate {
     let engine = AVAudioEngine()
     var peerToOutput = Dictionary<MCPeerID, AudioPlayerDecoder>()
+    let recorder = AudioQueueRecorder()
 
     init() {
-        let delayUnit = AVAudioUnitDelay()
-        engine.attachNode(delayUnit)
-        engine.connect(engine.inputNode, to:delayUnit, format: nil)
-        engine.connect(delayUnit, to: engine.outputNode, format: nil)
-        let outStreamDescription = engine.inputNode.outputFormatForBus(0).streamDescription
-        var error: NSError?
-        engine.startAndReturnError(&error)
-        println(error)
-        
-        var encoder = AACAudioEncoder(sourceFormat: engine.outputNode.outputFormatForBus(0).streamDescription)
+        recorder.start()
     }
 
     public func startRecord(block: CompressedDataClosure) {
-        engine.inputNode.installTapOnBus(AVAudioNodeBus(0), bufferSize: AVAudioFrameCount(1024), format: nil, block: {
-            (buf: AVAudioPCMBuffer!, when: AVAudioTime!) -> Void in
-            // compress
-            // call block
-        })
+
     }
 
     public func stopRecord() {

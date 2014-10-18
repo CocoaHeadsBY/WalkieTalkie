@@ -17,6 +17,7 @@
 		654C99F219F271AF0091BA06 /* SpeakButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654C99F119F271AF0091BA06 /* SpeakButton.swift */; };
 		654C99F319F271B20091BA06 /* SpeakButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654C99F119F271AF0091BA06 /* SpeakButton.swift */; };
 		654C99F719F27ED70091BA06 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654C99F519F27ED70091BA06 /* MasterViewController.swift */; };
+		8FA06F7119F2BD7C001E99BD /* AudioQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FA06F7019F2BD7C001E99BD /* AudioQueue.m */; };
 		8FDB86D919F26909008C667A /* AudioEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FDB86D819F26909008C667A /* AudioEngine.swift */; };
 /* End PBXBuildFile section */
 
@@ -44,6 +45,9 @@
 		50ECCE6519F1AE29007A65D5 /* SessionContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionContainer.swift; sourceTree = "<group>"; };
 		654C99F119F271AF0091BA06 /* SpeakButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeakButton.swift; sourceTree = "<group>"; };
 		654C99F519F27ED70091BA06 /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MasterViewController.swift; path = UI/MasterViewController.swift; sourceTree = "<group>"; };
+		8FA06F6E19F2BD7C001E99BD /* WalkieTalkie-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WalkieTalkie-Bridging-Header.h"; sourceTree = "<group>"; };
+		8FA06F6F19F2BD7C001E99BD /* AudioQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AudioQueue.h; sourceTree = "<group>"; };
+		8FA06F7019F2BD7C001E99BD /* AudioQueue.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AudioQueue.m; sourceTree = "<group>"; };
 		8FDB86D819F26909008C667A /* AudioEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioEngine.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -91,10 +95,13 @@
 				221AC0EF19F26B79009FD639 /* AACAudioConverter.swift */,
 				50ECCE1319F18C38007A65D5 /* AppDelegate.swift */,
 				8FDB86D819F26909008C667A /* AudioEngine.swift */,
+				8FA06F6F19F2BD7C001E99BD /* AudioQueue.h */,
+				8FA06F7019F2BD7C001E99BD /* AudioQueue.m */,
 				50ECCE1C19F18C38007A65D5 /* Images.xcassets */,
 				50ECCE6519F1AE29007A65D5 /* SessionContainer.swift */,
 				50ECCE1119F18C38007A65D5 /* Supporting Files */,
 				654C99EF19F271620091BA06 /* UI */,
+				8FA06F6E19F2BD7C001E99BD /* WalkieTalkie-Bridging-Header.h */,
 			);
 			path = WalkieTalkie;
 			sourceTree = "<group>";
@@ -250,6 +257,7 @@
 				654C99F719F27ED70091BA06 /* MasterViewController.swift in Sources */,
 				8FDB86D919F26909008C667A /* AudioEngine.swift in Sources */,
 				221AC0F019F26B79009FD639 /* AACAudioConverter.swift in Sources */,
+				8FA06F7119F2BD7C001E99BD /* AudioQueue.m in Sources */,
 				50ECCE1419F18C38007A65D5 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -376,12 +384,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = WalkieTalkie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "WalkieTalkie/WalkieTalkie-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -389,12 +400,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = WalkieTalkie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "WalkieTalkie/WalkieTalkie-Bridging-Header.h";
 			};
 			name = Release;
 		};
