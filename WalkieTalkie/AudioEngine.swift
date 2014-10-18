@@ -20,10 +20,11 @@ class AudioPlayerDecoder {
     }
 
     func decodeAndPlay(data: NSData) {
-        let buffer = AVAudioPCMBuffer()
         println("Received \(data.length)")
         decoder.decodeData(data, toBuffer: buffer)
-        audioPlayer.scheduleBuffer(buffer, completionHandler: {})
+        if (buffer.frameLength > 0) {
+            audioPlayer.scheduleBuffer(buffer, completionHandler: { println("Frame played") })
+        }
     }
 }
 

@@ -60,7 +60,7 @@ static void audioQueueInputCallback(void *                          inUserData,
                            0 /* flags */, &inputQueue);
         NSAssert(st == noErr, @"st = %d", (int)st);
         for (int i = 0; i < 10; ++i) {
-            st = AudioQueueAllocateBuffer(inputQueue, 1024, &aqBuffers[i]);
+            st = AudioQueueAllocateBuffer(inputQueue, 2048, &aqBuffers[i]);
             NSAssert(st == noErr, @"AudioQueueAllocateBuffer failed with err %d", (int)st);
             st = AudioQueueEnqueueBuffer(inputQueue, aqBuffers[i], 0, NULL);
             NSAssert(st == noErr, @"AudioQueueEnqueueBuffer failed with err %d", (int)st);
@@ -126,7 +126,7 @@ static void audioQueueOutputCallback(void *                  inUserData,
         NSAssert(st == noErr, @"st = %d", (int)st);
         st = AudioQueueAllocateBuffer(decoderQueue, 1024, &inputBuffer);
         NSAssert(st == noErr, @"AudioQueueAllocateBuffer failed with err %d", (int)st);
-        st = AudioQueueAllocateBuffer(decoderQueue, 8192, &outputBuffer);
+        st = AudioQueueAllocateBuffer(decoderQueue, 8196, &outputBuffer);
         NSAssert(st == noErr, @"AudioQueueAllocateBuffer failed with err %d", (int)st);
 
         st = AudioQueueSetOfflineRenderFormat(decoderQueue, format, &channelLayout);
@@ -138,7 +138,7 @@ static void audioQueueOutputCallback(void *                  inUserData,
         AudioTimeStamp ts;
         ts.mFlags = kAudioTimeStampSampleTimeValid;
         ts.mSampleTime = 0;
-        AudioQueueOfflineRender(decoderQueue, &ts, outputBuffer, 0);
+        st = AudioQueueOfflineRender(decoderQueue, &ts, outputBuffer, 0);
         NSAssert(st == noErr, @"AudioQueueOfflineRender st = %d", (int)st);
     }
     return self;
@@ -165,7 +165,8 @@ static void audioQueueOutputCallback(void *                  inUserData,
     };
     OSStatus st = AudioQueueEnqueueBuffer(decoderQueue, inputBuffer, 1, &packetDescription);
     NSAssert(st == noErr, @"AudioQueueEnqueueBuffer failed with err %d", (int)st);
-    st = AudioQueueOfflineRender(decoderQueue, &ts, outputBuffer, 4096);
+    NSLog(@"###Sample time: %lf", ts.mSampleTime);
+    st = AudioQueueOfflineRender(decoderQueue, &ts, outputBuffer, 1024);
     if (st == noErr) {
         memcpy(buffer.mutableAudioBufferList->mBuffers[0].mData, outputBuffer->mAudioData, outputBuffer->mAudioDataByteSize);
         buffer.mutableAudioBufferList->mBuffers[0].mDataByteSize = outputBuffer->mAudioDataByteSize;
