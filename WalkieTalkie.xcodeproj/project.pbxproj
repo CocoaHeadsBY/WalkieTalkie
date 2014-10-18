@@ -14,6 +14,8 @@
 		50ECCE2019F18C38007A65D5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50ECCE1E19F18C38007A65D5 /* LaunchScreen.xib */; };
 		50ECCE2C19F18C38007A65D5 /* WalkieTalkieTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ECCE2B19F18C38007A65D5 /* WalkieTalkieTests.swift */; };
 		50ECCE6619F1AE29007A65D5 /* SessionContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ECCE6519F1AE29007A65D5 /* SessionContainer.swift */; };
+		6530BBA619F2AB6700C4AF2D /* UIButton+BackgroundColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6530BBA519F2AB6700C4AF2D /* UIButton+BackgroundColor.swift */; };
+		6530BBA819F2B45A00C4AF2D /* SpeakButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6530BBA719F2B45A00C4AF2D /* SpeakButton.xib */; };
 		654C99F219F271AF0091BA06 /* SpeakButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654C99F119F271AF0091BA06 /* SpeakButton.swift */; };
 		654C99F319F271B20091BA06 /* SpeakButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654C99F119F271AF0091BA06 /* SpeakButton.swift */; };
 		654C99F719F27ED70091BA06 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654C99F519F27ED70091BA06 /* MasterViewController.swift */; };
@@ -43,6 +45,8 @@
 		50ECCE2A19F18C38007A65D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50ECCE2B19F18C38007A65D5 /* WalkieTalkieTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkieTalkieTests.swift; sourceTree = "<group>"; };
 		50ECCE6519F1AE29007A65D5 /* SessionContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionContainer.swift; sourceTree = "<group>"; };
+		6530BBA519F2AB6700C4AF2D /* UIButton+BackgroundColor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "UIButton+BackgroundColor.swift"; path = "extensions/UIButton+BackgroundColor.swift"; sourceTree = "<group>"; };
+		6530BBA719F2B45A00C4AF2D /* SpeakButton.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SpeakButton.xib; sourceTree = "<group>"; };
 		654C99F119F271AF0091BA06 /* SpeakButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeakButton.swift; sourceTree = "<group>"; };
 		654C99F519F27ED70091BA06 /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MasterViewController.swift; path = UI/MasterViewController.swift; sourceTree = "<group>"; };
 		8FA06F6E19F2BD7C001E99BD /* WalkieTalkie-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "WalkieTalkie-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -131,9 +135,19 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		6530BBA419F2AB2200C4AF2D /* extensions */ = {
+			isa = PBXGroup;
+			children = (
+				6530BBA519F2AB6700C4AF2D /* UIButton+BackgroundColor.swift */,
+			);
+			name = extensions;
+			sourceTree = "<group>";
+		};
 		654C99EF19F271620091BA06 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				6530BBA419F2AB2200C4AF2D /* extensions */,
+				654C99F419F27ED70091BA06 /* DetailViewController.swift */,
 				50ECCE1E19F18C38007A65D5 /* LaunchScreen.xib */,
 				50ECCE1919F18C38007A65D5 /* Main.storyboard */,
 				654C99F519F27ED70091BA06 /* MasterViewController.swift */,
@@ -146,6 +160,7 @@
 			isa = PBXGroup;
 			children = (
 				654C99F119F271AF0091BA06 /* SpeakButton.swift */,
+				6530BBA719F2B45A00C4AF2D /* SpeakButton.xib */,
 			);
 			name = SpeakButton;
 			path = UI/SpeakButton;
@@ -232,6 +247,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6530BBA819F2B45A00C4AF2D /* SpeakButton.xib in Resources */,
 				50ECCE1B19F18C38007A65D5 /* Main.storyboard in Resources */,
 				50ECCE2019F18C38007A65D5 /* LaunchScreen.xib in Resources */,
 				50ECCE1D19F18C38007A65D5 /* Images.xcassets in Resources */,
@@ -256,6 +272,7 @@
 				50ECCE6619F1AE29007A65D5 /* SessionContainer.swift in Sources */,
 				654C99F719F27ED70091BA06 /* MasterViewController.swift in Sources */,
 				8FDB86D919F26909008C667A /* AudioEngine.swift in Sources */,
+				6530BBA619F2AB6700C4AF2D /* UIButton+BackgroundColor.swift in Sources */,
 				221AC0F019F26B79009FD639 /* AACAudioConverter.swift in Sources */,
 				8FA06F7119F2BD7C001E99BD /* AudioQueue.m in Sources */,
 				50ECCE1419F18C38007A65D5 /* AppDelegate.swift in Sources */,
