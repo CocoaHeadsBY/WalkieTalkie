@@ -9,8 +9,9 @@
 import UIKit
 import MultipeerConnectivity
 
-class MasterViewController: UITableViewController, MCBrowserViewControllerDelegate, SessionContainerDelegate {
-    var detailViewController: DetailViewController?
+class MasterViewController: UIViewController, UITableViewDataSource, MCBrowserViewControllerDelegate, SessionContainerDelegate {
+    @IBOutlet weak var tableView: UITableView!
+
     var sessionContainer: SessionContainer
 
     required init(coder aDecoder: NSCoder) {
@@ -51,16 +52,6 @@ class MasterViewController: UITableViewController, MCBrowserViewControllerDelega
         self.tableView.reloadData()
     }
 
-    // MARK: NSObject
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        if UIDevice.currentDevice().userInterfaceIdiom == .Pad {
-            self.clearsSelectionOnViewWillAppear = false
-            self.preferredContentSize = CGSize(width: 320.0, height: 600.0)
-        }
-    }
-
     // MARK: UIViewController
 
     override func viewDidLoad() {
@@ -68,38 +59,20 @@ class MasterViewController: UITableViewController, MCBrowserViewControllerDelega
 
         let browseButton = UIBarButtonItem(barButtonSystemItem: .Search, target: self, action: "showBrowser")
         self.navigationItem.rightBarButtonItem = browseButton
-        if let split = self.splitViewController {
-            let controllers = split.viewControllers
-            self.detailViewController = controllers[controllers.count-1].topViewController as? DetailViewController
-        }
     }
 
-    // MARK: - Segues
+    // MARK: - UITableViewDataSource
 
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        if segue.identifier == "showDetail" {
-            if let indexPath = self.tableView.indexPathForSelectedRow() {
-                let peer = self.sessionContainer.session.connectedPeers[indexPath.row] as MCPeerID
-                let controller = (segue.destinationViewController as UINavigationController).topViewController as DetailViewController
-                controller.detailItem = peer
-                controller.navigationItem.leftBarButtonItem = self.splitViewController?.displayModeButtonItem()
-                controller.navigationItem.leftItemsSupplementBackButton = true
-            }
-        }
-    }
-
-    // MARK: - Table View
-
-    override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
 
-    override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return self.sessionContainer.session.connectedPeers.count
     }
 
-    override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell
 
         let peer = self.sessionContainer.session.connectedPeers[indexPath.row] as MCPeerID
         cell.textLabel?.text = peer.displayName

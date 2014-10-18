@@ -16,7 +16,6 @@
 		50ECCE6619F1AE29007A65D5 /* SessionContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ECCE6519F1AE29007A65D5 /* SessionContainer.swift */; };
 		654C99F219F271AF0091BA06 /* SpeakButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654C99F119F271AF0091BA06 /* SpeakButton.swift */; };
 		654C99F319F271B20091BA06 /* SpeakButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654C99F119F271AF0091BA06 /* SpeakButton.swift */; };
-		654C99F619F27ED70091BA06 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654C99F419F27ED70091BA06 /* DetailViewController.swift */; };
 		654C99F719F27ED70091BA06 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654C99F519F27ED70091BA06 /* MasterViewController.swift */; };
 		8FDB86D919F26909008C667A /* AudioEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FDB86D819F26909008C667A /* AudioEngine.swift */; };
 /* End PBXBuildFile section */
@@ -44,7 +43,6 @@
 		50ECCE2B19F18C38007A65D5 /* WalkieTalkieTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkieTalkieTests.swift; sourceTree = "<group>"; };
 		50ECCE6519F1AE29007A65D5 /* SessionContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionContainer.swift; sourceTree = "<group>"; };
 		654C99F119F271AF0091BA06 /* SpeakButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeakButton.swift; sourceTree = "<group>"; };
-		654C99F419F27ED70091BA06 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailViewController.swift; path = UI/DetailViewController.swift; sourceTree = "<group>"; };
 		654C99F519F27ED70091BA06 /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MasterViewController.swift; path = UI/MasterViewController.swift; sourceTree = "<group>"; };
 		8FDB86D819F26909008C667A /* AudioEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioEngine.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -129,7 +127,6 @@
 		654C99EF19F271620091BA06 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				654C99F419F27ED70091BA06 /* DetailViewController.swift */,
 				50ECCE1E19F18C38007A65D5 /* LaunchScreen.xib */,
 				50ECCE1919F18C38007A65D5 /* Main.storyboard */,
 				654C99F519F27ED70091BA06 /* MasterViewController.swift */,
@@ -251,7 +248,6 @@
 				654C99F219F271AF0091BA06 /* SpeakButton.swift in Sources */,
 				50ECCE6619F1AE29007A65D5 /* SessionContainer.swift in Sources */,
 				654C99F719F27ED70091BA06 /* MasterViewController.swift in Sources */,
-				654C99F619F27ED70091BA06 /* DetailViewController.swift in Sources */,
 				8FDB86D919F26909008C667A /* AudioEngine.swift in Sources */,
 				221AC0F019F26B79009FD639 /* AACAudioConverter.swift in Sources */,
 				50ECCE1419F18C38007A65D5 /* AppDelegate.swift in Sources */,
