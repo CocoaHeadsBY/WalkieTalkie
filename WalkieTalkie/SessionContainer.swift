@@ -14,6 +14,13 @@ protocol SessionContainerDelegate: class {
     func sessionContainerDidUpdateListOfConnectedPeers(SessionContainer)
 }
 
+protocol PeerCommunicationDelegate: class {
+    func didReceive(data: NSData, fromPeer peerID: MCPeerID)
+    func peerConnected(peerID: MCPeerID)
+    func peerDisconnected(peerID: MCPeerID)
+}
+
+
 class SessionContainer: NSObject, MCSessionDelegate {
     let serviceType = "CocoaHeadsBY"
     var advertiser: MCNearbyServiceAdvertiser

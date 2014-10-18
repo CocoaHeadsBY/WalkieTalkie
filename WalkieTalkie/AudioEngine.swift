@@ -8,11 +8,20 @@
 
 import Foundation
 import AVFoundation
+import MultipeerConnectivity
+
+class AudioPlayerDecoder {
+    var audioPlayer = AVAudioPlayerNode()
+    func decodeAndPlay(data: NSData) {
+    }
+}
 
 public typealias CompressedDataClosure = (dataToSend: NSData) -> ()
 
-public class AudioEngine: SessionContainerDelegate {
-    var engine = AVAudioEngine()
+public class AudioEngine: PeerCommunicationDelegate {
+    let engine = AVAudioEngine()
+    var peerToOutput = Dictionary<MCPeerID, AudioPlayerDecoder>()
+
     init() {
         let delayUnit = AVAudioUnitDelay()
         engine.attachNode(delayUnit)
@@ -36,12 +45,25 @@ public class AudioEngine: SessionContainerDelegate {
         engine.inputNode.removeTapOnBus(AVAudioNodeBus(0))
     }
 
-    // SessionContainerDelegate implementation
-    func sessionContainer(SessionContainer, didReceive data: NSData, peer peerID: protocol<NSObjectProtocol, NSCopying>) {
-
+    // PeerCommunicationDelegate implementation
+    func didReceive(data: NSData, fromPeer peerID: MCPeerID) {
+        peerToOutput[peerID]?.decodeAndPlay(data)
     }
 
-    func sessionContainerDidUpdateListOfConnectedPeers(SessionContainer) {
-        
+    func peerConnected(peerID: MCPeerID) {
+        let playerDecoder = AudioPlayerDecoder()
+        engine.attachNode(playerDecoder.audioPlayer)
+        engine.connect(playerDecoder.audioPlayer, to: engine.mainMixerNode, format: nil)
+        playerDecoder.audioPlayer.play()
+        peerToOutput[peerID] = playerDecoder
     }
+
+    func peerDisconnected(peerID: MCPeerID) {
+        if let playerDecoder = peerToOutput[peerID] {
+            engine.disconnectNodeOutput(playerDecoder.audioPlayer)
+            engine.detachNode(playerDecoder.audioPlayer)
+            peerToOutput.removeValueForKey(peerID)
+        }
+    }
+
 }
