@@ -69,7 +69,9 @@
 				50ECCE2819F18C38007A65D5 /* WalkieTalkieTests */,
 				50ECCE0F19F18C38007A65D5 /* Products */,
 			);
+			indentWidth = 4;
 			sourceTree = "<group>";
+			tabWidth = 4;
 		};
 		50ECCE0F19F18C38007A65D5 /* Products */ = {
 			isa = PBXGroup;
