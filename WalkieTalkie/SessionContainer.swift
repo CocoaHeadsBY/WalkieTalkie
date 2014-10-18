@@ -10,7 +10,7 @@ import UIKit
 import MultipeerConnectivity
 
 protocol SessionContainerDelegate: class {
-  func sessionContainer(SessionContainer, didReceive data: NSData, peer peerID: MCPeerID)
+  func sessionContainer(SessionContainer, didReceive data: NSData, peer peerID: protocol<NSObjectProtocol, NSCopying>)
   func sessionContainerDidUpdateListOfConnectedPeers(SessionContainer)
 }
 
