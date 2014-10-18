@@ -40,6 +40,7 @@ class SessionContainer: NSObject, MCSessionDelegate {
     // MARK: Methods
 
     func sendData(data: NSData) {
+        println("send data")
         var sendError : NSError?
         let sent = self.session.sendData(data, toPeers: self.session.connectedPeers, withMode: MCSessionSendDataMode.Unreliable, error: &sendError)
 
@@ -64,6 +65,7 @@ class SessionContainer: NSObject, MCSessionDelegate {
     // MARK: MCSessionDelegate
 
     func session(session: MCSession!, didReceiveData data: NSData!, fromPeer peerID: MCPeerID!) {
+        println("didReceiveData from \(peerID)")
         if let delegate = self.delegate {
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                 delegate.sessionContainer(self, didReceiveData: data, fromPeer: peerID)
