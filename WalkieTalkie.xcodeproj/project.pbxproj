@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		221AC0F019F26B79009FD639 /* AACAudioConverter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 221AC0EF19F26B79009FD639 /* AACAudioConverter.swift */; };
 		50ECCE1419F18C38007A65D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ECCE1319F18C38007A65D5 /* AppDelegate.swift */; };
 		50ECCE1B19F18C38007A65D5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50ECCE1919F18C38007A65D5 /* Main.storyboard */; };
 		50ECCE1D19F18C38007A65D5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50ECCE1C19F18C38007A65D5 /* Images.xcassets */; };
@@ -31,6 +32,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		221AC0EF19F26B79009FD639 /* AACAudioConverter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AACAudioConverter.swift; sourceTree = "<group>"; };
 		50ECCE0E19F18C38007A65D5 /* WalkieTalkie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WalkieTalkie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50ECCE1219F18C38007A65D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50ECCE1319F18C38007A65D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				50ECCE6519F1AE29007A65D5 /* SessionContainer.swift */,
 				50ECCE1119F18C38007A65D5 /* Supporting Files */,
 				654C99EF19F271620091BA06 /* UI */,
+				221AC0EF19F26B79009FD639 /* AACAudioConverter.swift */,
 			);
 			path = WalkieTalkie;
 			sourceTree = "<group>";
@@ -250,6 +253,7 @@
 				654C99F719F27ED70091BA06 /* MasterViewController.swift in Sources */,
 				654C99F619F27ED70091BA06 /* DetailViewController.swift in Sources */,
 				8FDB86D919F26909008C667A /* AudioEngine.swift in Sources */,
+				221AC0F019F26B79009FD639 /* AACAudioConverter.swift in Sources */,
 				50ECCE1419F18C38007A65D5 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
