@@ -13,7 +13,7 @@ import AudioToolbox
 
 class AACAudioEncoder {
     
-    var audioConverter : Unmanaged<AudioConverter>?
+    var audioConverter = AudioConverterRef()
     var outputFormat : AudioStreamBasicDescription
     
     init (sourceFormat : UnsafePointer<AudioStreamBasicDescription>) {
@@ -46,7 +46,7 @@ class AACAudioEncoder {
         let bitrateSize : UInt32 = UInt32(sizeof(UInt32))
         var err = noErr;
 
-        err = AudioConverterSetProperty(audioConverter?.takeUnretainedValue(),
+        err = AudioConverterSetProperty(audioConverter,
                 AudioConverterPropertyID(kAudioConverterEncodeBitRate),
                 bitrateSize,
                 &bitrate)
