@@ -74,6 +74,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="WalkieTalkie" id="xFC-DT-Zcx"/>
                     <connections>
+                        <outlet property="recordButton" destination="NJj-UD-RM6" id="knZ-7c-tWX"/>
                         <outlet property="tableView" destination="Cpc-CQ-nCf" id="m3z-ya-YJ6"/>
                     </connections>
                 </viewController>

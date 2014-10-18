@@ -11,6 +11,8 @@ import MultipeerConnectivity
 
 class MasterViewController: UIViewController, UITableViewDataSource, MCBrowserViewControllerDelegate, SessionContainerDelegate, SpeakButtonDelegate {
     @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var recordButton: SpeakButton!
+
     var connectedPeers = NSMutableArray()
     var audioEngine = AudioEngine()
 
@@ -28,6 +30,11 @@ class MasterViewController: UIViewController, UITableViewDataSource, MCBrowserVi
         let browserVC = MCBrowserViewController(serviceType: self.sessionContainer.serviceType, session: self.sessionContainer.session)
         browserVC.delegate = self
         self.presentViewController(browserVC, animated: true, completion: nil)
+    }
+
+    func updateRecordButtonState() {
+        // TODO:
+        // self.recordButton.enabled = self.connectedPeers.count > 0
     }
 
     // MARK: MCBrowserViewControllerDelegate
@@ -53,13 +60,17 @@ class MasterViewController: UIViewController, UITableViewDataSource, MCBrowserVi
     func sessionContainer(SessionContainer, peerConnected peerID: MCPeerID) {
         self.audioEngine.peerConnected(peerID)
         self.connectedPeers.addObject(peerID)
+
         self.tableView.reloadData()
+        self.updateRecordButtonState()
     }
 
     func sessionContainer(SessionContainer, peerDisconnected peerID: MCPeerID) {
         self.audioEngine.peerDisconnected(peerID)
         self.connectedPeers.removeObject(peerID)
+
         self.tableView.reloadData()
+        self.updateRecordButtonState()
     }
 
     // MARK: UIViewController
@@ -69,6 +80,8 @@ class MasterViewController: UIViewController, UITableViewDataSource, MCBrowserVi
 
         let browseButton = UIBarButtonItem(barButtonSystemItem: .Search, target: self, action: "showBrowser")
         self.navigationItem.rightBarButtonItem = browseButton
+
+        self.updateRecordButtonState()
     }
 
     // MARK: SpeakButtonDelegate
