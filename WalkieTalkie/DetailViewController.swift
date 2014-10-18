@@ -12,7 +12,6 @@ class DetailViewController: UIViewController {
 
   @IBOutlet weak var detailDescriptionLabel: UILabel!
 
-
   var detailItem: AnyObject? {
     didSet {
         // Update the view.
@@ -28,6 +27,8 @@ class DetailViewController: UIViewController {
         }
     }
   }
+
+  // MARK: UITableViewController
 
   override func viewDidLoad() {
     super.viewDidLoad()

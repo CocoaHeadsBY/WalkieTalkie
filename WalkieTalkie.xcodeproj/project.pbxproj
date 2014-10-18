@@ -14,6 +14,7 @@
 		50ECCE1D19F18C38007A65D5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50ECCE1C19F18C38007A65D5 /* Images.xcassets */; };
 		50ECCE2019F18C38007A65D5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50ECCE1E19F18C38007A65D5 /* LaunchScreen.xib */; };
 		50ECCE2C19F18C38007A65D5 /* WalkieTalkieTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ECCE2B19F18C38007A65D5 /* WalkieTalkieTests.swift */; };
+		50ECCE6619F1AE29007A65D5 /* SessionContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ECCE6519F1AE29007A65D5 /* SessionContainer.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -38,6 +39,7 @@
 		50ECCE2519F18C38007A65D5 /* WalkieTalkieTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = WalkieTalkieTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		50ECCE2A19F18C38007A65D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50ECCE2B19F18C38007A65D5 /* WalkieTalkieTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkieTalkieTests.swift; sourceTree = "<group>"; };
+		50ECCE6519F1AE29007A65D5 /* SessionContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionContainer.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,11 +82,12 @@
 			isa = PBXGroup;
 			children = (
 				50ECCE1319F18C38007A65D5 /* AppDelegate.swift */,
-				50ECCE1519F18C38007A65D5 /* MasterViewController.swift */,
 				50ECCE1719F18C38007A65D5 /* DetailViewController.swift */,
-				50ECCE1919F18C38007A65D5 /* Main.storyboard */,
 				50ECCE1C19F18C38007A65D5 /* Images.xcassets */,
 				50ECCE1E19F18C38007A65D5 /* LaunchScreen.xib */,
+				50ECCE1919F18C38007A65D5 /* Main.storyboard */,
+				50ECCE1519F18C38007A65D5 /* MasterViewController.swift */,
+				50ECCE6519F1AE29007A65D5 /* SessionContainer.swift */,
 				50ECCE1119F18C38007A65D5 /* Supporting Files */,
 			);
 			path = WalkieTalkie;
@@ -164,6 +167,7 @@
 				TargetAttributes = {
 					50ECCE0D19F18C38007A65D5 = {
 						CreatedOnToolsVersion = 6.1;
+						DevelopmentTeam = 6DX29W6XC5;
 					};
 					50ECCE2419F18C38007A65D5 = {
 						CreatedOnToolsVersion = 6.1;
@@ -215,6 +219,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				50ECCE6619F1AE29007A65D5 /* SessionContainer.swift in Sources */,
 				50ECCE1819F18C38007A65D5 /* DetailViewController.swift in Sources */,
 				50ECCE1619F18C38007A65D5 /* MasterViewController.swift in Sources */,
 				50ECCE1419F18C38007A65D5 /* AppDelegate.swift in Sources */,
@@ -342,9 +347,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = WalkieTalkie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Debug;
 		};
@@ -352,9 +360,12 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = WalkieTalkie/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
 			};
 			name = Release;
 		};
@@ -411,6 +422,7 @@
 				50ECCE3119F18C38007A65D5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		50ECCE3219F18C38007A65D5 /* Build configuration list for PBXNativeTarget "WalkieTalkieTests" */ = {
 			isa = XCConfigurationList;
@@ -419,6 +431,7 @@
 				50ECCE3419F18C38007A65D5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
