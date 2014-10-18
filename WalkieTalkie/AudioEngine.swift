@@ -13,6 +13,7 @@ import MultipeerConnectivity
 class AudioPlayerDecoder {
     let audioPlayer = AVAudioPlayerNode()
     let decoder: AudioQueueDecoder;
+    let buffer = AVAudioPCMBuffer(PCMFormat: AVAudioFormat(standardFormatWithSampleRate: 16000, channels: 1), frameCapacity: 8196)
 
     init () {
         let inputFormat = self.audioPlayer.outputFormatForBus(0)
@@ -22,7 +23,8 @@ class AudioPlayerDecoder {
     func decodeAndPlay(data: NSData) {
         let buffer = AVAudioPCMBuffer()
         println("Received \(data.length)")
-//        audioPlayer.scheduleBuffer(buffer, completionHandler: {})
+        decoder.decodeData(data, toBuffer: buffer)
+        audioPlayer.scheduleBuffer(buffer, completionHandler: {})
     }
 }
 
@@ -34,7 +36,6 @@ public class AudioEngine {
     let recorder = AudioQueueRecorder()
 
     init() {
-
         var error : NSError?;
 
         setupAudioSession()
@@ -69,10 +70,10 @@ public class AudioEngine {
 
     func peerConnected(peerID: MCPeerID) {
         let playerDecoder = AudioPlayerDecoder()
-        //engine.attachNode(playerDecoder.audioPlayer)
-        //engine.connect(playerDecoder.audioPlayer, to: engine.mainMixerNode, format: nil)
-        //playerDecoder.audioPlayer.play()
-        //peerToOutput[peerID] = playerDecoder
+        engine.attachNode(playerDecoder.audioPlayer)
+        engine.connect(playerDecoder.audioPlayer, to: engine.mainMixerNode, format: nil)
+        playerDecoder.audioPlayer.play()
+        peerToOutput[peerID] = playerDecoder
     }
 
     func peerDisconnected(peerID: MCPeerID) {
