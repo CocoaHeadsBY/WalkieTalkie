@@ -6,7 +6,9 @@
 //  Copyright (c) 2014 CocoaHeadsBY. All rights reserved.
 //
 
-#import <Foundation/Foundation.h>
+@import Foundation;
+@import AudioToolbox;
+@import AVFoundation;
 
 @interface AudioQueueRecorder : NSObject
 
@@ -16,5 +18,13 @@
 - (void)start;
 - (void)stop;
 
+@end
+
+
+@interface AudioQueueDecoder : NSObject
+
+- (instancetype)initWithFormat:(AudioStreamBasicDescription const *)format;
+- (void)decodeData:(NSData *)data toBuffer:(AVAudioPCMBuffer *)buffer;
+- (void)stop;
 
 @end

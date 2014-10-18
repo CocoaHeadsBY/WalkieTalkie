@@ -11,7 +11,14 @@ import AVFoundation
 import MultipeerConnectivity
 
 class AudioPlayerDecoder {
-    var audioPlayer = AVAudioPlayerNode()
+    let audioPlayer = AVAudioPlayerNode()
+    let decoder: AudioQueueDecoder;
+
+    init () {
+        let inputFormat = self.audioPlayer.outputFormatForBus(0)
+        decoder = AudioQueueDecoder(format: inputFormat.streamDescription)
+    }
+
     func decodeAndPlay(data: NSData) {
         let buffer = AVAudioPCMBuffer()
         println("Received \(data.length)")

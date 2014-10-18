@@ -7,7 +7,6 @@
 //
 
 #import "AudioQueue.h"
-#include <AudioToolbox/AudioToolbox.h>
 
 static const AudioStreamBasicDescription asbdAAC = {
     .mSampleRate = 16000,
@@ -44,7 +43,7 @@ static void audioQueueInputCallback(void *                          inUserData,
 @implementation AudioQueueRecorder
 
 - (void)dealloc {
-    NSLog(@"Deallocated");
+    AudioQueueDispose(inputQueue, TRUE);
 }
 
 - (instancetype)init {
@@ -55,10 +54,6 @@ static void audioQueueInputCallback(void *                          inUserData,
                            (__bridge void*)self,
                            NULL /* run loop */, NULL /* run loop mode */,
                            0 /* flags */, &inputQueue);
-        NSAssert(st == noErr, @"st = %d", (int)st);
-        AudioStreamBasicDescription recordFormat;
-        st = AudioQueueGetProperty(inputQueue, kAudioQueueProperty_StreamDescription,
-                                   &recordFormat, &(UInt32){sizeof(AudioStreamBasicDescription)});
         NSAssert(st == noErr, @"st = %d", (int)st);
         for (int i = 0; i < 10; ++i) {
             st = AudioQueueAllocateBuffer(inputQueue, 1024, &aqBuffers[i]);
@@ -83,10 +78,96 @@ static void audioQueueInputCallback(void *                          inUserData,
 
 - (void)queueInputBuffer:(AudioQueueBufferRef)buffer startTime:(const AudioTimeStamp *)startTime numberPackets:(UInt32)numberPackets packetDescs:(const AudioStreamPacketDescription *)descs {
     if (_dataProducedBlock) {
-        _dataProducedBlock([NSData dataWithBytes:buffer->mAudioData length:buffer->mAudioDataByteSize]);
+        NSMutableData *ts = [NSMutableData dataWithBytes:(void *)&startTime->mSampleTime length:sizeof(startTime->mSampleTime)];
+        [ts appendBytes:buffer->mAudioData length:buffer->mAudioDataByteSize];
+        _dataProducedBlock(ts);
     }
     AudioQueueEnqueueBuffer(inputQueue, buffer, 0, NULL);
-    NSLog(@"Has frames %d", (int)numberPackets);
 }
 
 @end
+
+
+@interface AudioQueueDecoder () {
+    AudioQueueRef decoderQueue;
+    AudioQueueBufferRef	inputBuffer;
+    AudioQueueBufferRef	outputBuffer;
+}
+
+- (void)queueOutputBuffer:(AudioQueueBufferRef)buffer;
+
+@end
+
+static void audioQueueOutputCallback(void *                  inUserData,
+                                     AudioQueueRef           inAQ,
+                                     AudioQueueBufferRef     inBuffer) {
+    AudioQueueDecoder *decoder = (__bridge AudioQueueDecoder *)inUserData;
+    [decoder queueOutputBuffer:inBuffer];
+}
+
+@implementation AudioQueueDecoder
+
+- (void)dealloc {
+    [self stop];
+    AudioQueueDispose(decoderQueue, true);
+}
+
+- (instancetype)initWithFormat:(AudioStreamBasicDescription const *)format {
+    if (self = [super init]) {
+        OSStatus st = AudioQueueNewOutput(&asbdAAC,
+                                          audioQueueOutputCallback,
+                                          (__bridge void*)self,
+                                          NULL /* run loop */, NULL /* run loop mode */,
+                                          0 /* flags */, &decoderQueue);
+        NSAssert(st == noErr, @"st = %d", (int)st);
+        st = AudioQueueAllocateBuffer(decoderQueue, 1024, &inputBuffer);
+        NSAssert(st == noErr, @"AudioQueueAllocateBuffer failed with err %d", (int)st);
+        st = AudioQueueAllocateBuffer(decoderQueue, 8192, &outputBuffer);
+        NSAssert(st == noErr, @"AudioQueueAllocateBuffer failed with err %d", (int)st);
+
+        st = AudioQueueSetOfflineRenderFormat(decoderQueue, format, NULL);
+        NSAssert(st == noErr, @"AudioQueueSetOfflineRenderFormat st = %d", (int)st);
+
+        st = AudioQueueStart(decoderQueue, NULL);
+        NSAssert(st == noErr, @"AudioQueueStart st = %d", (int)st);
+
+        AudioTimeStamp ts;
+        ts.mFlags = kAudioTimeStampSampleTimeValid;
+        ts.mSampleTime = 0;
+        AudioQueueOfflineRender(decoderQueue, &ts, outputBuffer, 0);
+        NSAssert(st == noErr, @"AudioQueueOfflineRender st = %d", (int)st);
+    }
+    return self;
+}
+
+- (void)stop {
+    AudioQueueFlush(decoderQueue);
+    AudioQueueStop(decoderQueue, false);
+}
+
+- (void)decodeData:(NSData *)data toBuffer:(AVAudioPCMBuffer *)buffer {
+
+    AudioTimeStamp ts;
+    ts.mSampleTime = *((Float64 *)data.bytes);
+    ts.mFlags = kAudioTimeStampSampleTimeValid;
+
+    inputBuffer->mAudioDataByteSize = data.length - sizeof(Float64);
+    [data getBytes:inputBuffer->mAudioData range:NSMakeRange(sizeof(Float64), inputBuffer->mAudioDataByteSize)];
+
+    AudioStreamPacketDescription packetDescription = {
+        .mStartOffset = 0,
+        .mVariableFramesInPacket = 0,
+        .mDataByteSize = inputBuffer->mAudioDataByteSize
+    };
+    OSStatus st = AudioQueueEnqueueBuffer(decoderQueue, inputBuffer, 1, &packetDescription);
+    NSAssert(st == noErr, @"AudioQueueEnqueueBuffer failed with err %d", (int)st);
+    st = AudioQueueOfflineRender(decoderQueue, &ts, outputBuffer, 4096);
+    NSAssert(st == noErr, @"AudioQueueOfflineRender failed with err %d", (int)st);
+}
+
+- (void)queueOutputBuffer:(AudioQueueBufferRef)buffer {
+    
+}
+
+@end
+
