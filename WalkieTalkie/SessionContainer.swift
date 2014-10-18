@@ -40,7 +40,7 @@ class SessionContainer: NSObject, MCSessionDelegate {
     // MARK: Methods
 
     func sendData(data: NSData) {
-        println("send data")
+        println("send data \(data.length)")
         var sendError : NSError?
         let sent = self.session.sendData(data, toPeers: self.session.connectedPeers, withMode: MCSessionSendDataMode.Reliable, error: &sendError)
 

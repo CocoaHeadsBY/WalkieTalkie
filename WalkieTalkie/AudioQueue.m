@@ -8,12 +8,12 @@
 
 #import "AudioQueue.h"
 
-static const AudioStreamBasicDescription asbdAAC = {
+static AudioStreamBasicDescription asbdAAC = {
     .mSampleRate = 8000,
     .mFormatID = kAudioFormatiLBC,
     .mFormatFlags = 0,
-    .mBytesPerPacket = 0,
-    .mFramesPerPacket = 0,
+    .mBytesPerPacket = 50,
+    .mFramesPerPacket = 240,
     .mBytesPerFrame = 0,
     .mChannelsPerFrame = 1,
     .mBitsPerChannel = 0,
@@ -26,7 +26,7 @@ static const AudioChannelLayout channelLayout = {
 
 @interface AudioQueueRecorder () {
     AudioQueueRef inputQueue;
-    AudioQueueBufferRef	aqBuffers[10];
+    AudioQueueBufferRef	aqBuffers[3];
 }
 
 - (void)queueInputBuffer:(AudioQueueBufferRef)buffer startTime:(const AudioTimeStamp *)startTime numberPackets:(UInt32)numberPackets packetDescs:(const AudioStreamPacketDescription *)descs;
@@ -52,6 +52,12 @@ static void audioQueueInputCallback(void *                          inUserData,
 
 - (instancetype)init {
     if (self = [super init]) {
+        AudioFormatGetProperty(kAudioFormatProperty_FormatInfo,
+                               0,
+                               NULL,
+                               &((UInt32){ sizeof(asbdAAC)}),
+                               &asbdAAC);
+
         OSStatus st = AudioQueueNewInput(
                            &asbdAAC,
                            audioQueueInputCallback,
@@ -59,7 +65,7 @@ static void audioQueueInputCallback(void *                          inUserData,
                            NULL /* run loop */, NULL /* run loop mode */,
                            0 /* flags */, &inputQueue);
         NSAssert(st == noErr, @"st = %d", (int)st);
-        for (int i = 0; i < 10; ++i) {
+        for (int i = 0; i < 3; ++i) {
             st = AudioQueueAllocateBuffer(inputQueue, 2048, &aqBuffers[i]);
             NSAssert(st == noErr, @"AudioQueueAllocateBuffer failed with err %d", (int)st);
             st = AudioQueueEnqueueBuffer(inputQueue, aqBuffers[i], 0, NULL);
@@ -124,7 +130,7 @@ static void audioQueueOutputCallback(void *                  inUserData,
                                           NULL /* run loop */, NULL /* run loop mode */,
                                           0 /* flags */, &decoderQueue);
         NSAssert(st == noErr, @"st = %d", (int)st);
-        st = AudioQueueAllocateBuffer(decoderQueue, 1024, &inputBuffer);
+        st = AudioQueueAllocateBuffer(decoderQueue, 8196, &inputBuffer);
         NSAssert(st == noErr, @"AudioQueueAllocateBuffer failed with err %d", (int)st);
         st = AudioQueueAllocateBuffer(decoderQueue, 8196, &outputBuffer);
         NSAssert(st == noErr, @"AudioQueueAllocateBuffer failed with err %d", (int)st);
@@ -158,14 +164,7 @@ static void audioQueueOutputCallback(void *                  inUserData,
     inputBuffer->mAudioDataByteSize = (UInt32)(data.length - sizeof(Float64));
     [data getBytes:inputBuffer->mAudioData range:NSMakeRange(sizeof(Float64), inputBuffer->mAudioDataByteSize)];
 
-    AudioStreamPacketDescription packetDescription = {
-        .mStartOffset = 0,
-        .mVariableFramesInPacket = 0,
-        .mDataByteSize = inputBuffer->mAudioDataByteSize
-    };
-    OSStatus st = AudioQueueEnqueueBuffer(decoderQueue, inputBuffer, 1, &packetDescription);
-    NSAssert(st == noErr, @"AudioQueueEnqueueBuffer failed with err %d", (int)st);
-    st = AudioQueueOfflineRender(decoderQueue, &ts, outputBuffer, 1024);
+    OSStatus st = AudioQueueOfflineRender(decoderQueue, &ts, outputBuffer, 2048);
     NSLog(@"Decoded bytes %d", outputBuffer->mAudioDataByteSize);
     memcpy(buffer.mutableAudioBufferList->mBuffers[0].mData, outputBuffer->mAudioData, outputBuffer->mAudioDataByteSize);
     buffer.mutableAudioBufferList->mBuffers[0].mDataByteSize = outputBuffer->mAudioDataByteSize;
@@ -175,7 +174,13 @@ static void audioQueueOutputCallback(void *                  inUserData,
 }
 
 - (void)queueOutputBuffer:(AudioQueueBufferRef)buffer {
-    
+    AudioStreamPacketDescription packetDescription = {
+        .mStartOffset = 0, 
+        .mVariableFramesInPacket = 0,
+        .mDataByteSize = inputBuffer->mAudioDataByteSize
+    };
+    OSStatus st = AudioQueueEnqueueBuffer(decoderQueue, inputBuffer, (inputBuffer->mAudioDataByteSize - 8) / 50, NULL);
+    NSAssert(st == noErr, @"AudioQueueEnqueueBuffer failed with err %d", (int)st);
 }
 
 @end
