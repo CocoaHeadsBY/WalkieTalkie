@@ -9,11 +9,11 @@
 #import "AudioQueue.h"
 
 static const AudioStreamBasicDescription asbdAAC = {
-    .mSampleRate = 16000,
-    .mFormatID = kAudioFormatMPEG4AAC,
+    .mSampleRate = 8000,
+    .mFormatID = kAudioFormatiLBC,
     .mFormatFlags = 0,
     .mBytesPerPacket = 0,
-    .mFramesPerPacket = 1024,
+    .mFramesPerPacket = 0,
     .mBytesPerFrame = 0,
     .mChannelsPerFrame = 1,
     .mBitsPerChannel = 0,
@@ -165,18 +165,13 @@ static void audioQueueOutputCallback(void *                  inUserData,
     };
     OSStatus st = AudioQueueEnqueueBuffer(decoderQueue, inputBuffer, 1, &packetDescription);
     NSAssert(st == noErr, @"AudioQueueEnqueueBuffer failed with err %d", (int)st);
-    NSLog(@"###Sample time: %lf", ts.mSampleTime);
     st = AudioQueueOfflineRender(decoderQueue, &ts, outputBuffer, 1024);
-    if (st == noErr) {
-        memcpy(buffer.mutableAudioBufferList->mBuffers[0].mData, outputBuffer->mAudioData, outputBuffer->mAudioDataByteSize);
-        buffer.mutableAudioBufferList->mBuffers[0].mDataByteSize = outputBuffer->mAudioDataByteSize;
-        buffer.frameLength = outputBuffer->mAudioDataByteSize / 2;
-    }
-    else {
-        buffer.frameLength = 0;
-    }
-    NSLog(@"AudioQueueOfflineRender st = %d", (int)st);
-    //NSAssert(st == noErr, @"AudioQueueOfflineRender failed with err %d", (int)st);
+    NSLog(@"Decoded bytes %d", outputBuffer->mAudioDataByteSize);
+    memcpy(buffer.mutableAudioBufferList->mBuffers[0].mData, outputBuffer->mAudioData, outputBuffer->mAudioDataByteSize);
+    buffer.mutableAudioBufferList->mBuffers[0].mDataByteSize = outputBuffer->mAudioDataByteSize;
+    buffer.frameLength = outputBuffer->mAudioDataByteSize / 2;
+
+    NSAssert(st == noErr, @"AudioQueueOfflineRender failed with err %d", (int)st);
 }
 
 - (void)queueOutputBuffer:(AudioQueueBufferRef)buffer {

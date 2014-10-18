@@ -10,7 +10,7 @@ import Foundation
 import AVFoundation
 import MultipeerConnectivity
 
-let generalFormat = AVAudioFormat(standardFormatWithSampleRate: 16000, channels: 1)
+let generalFormat = AVAudioFormat(standardFormatWithSampleRate: 8000, channels: 1)
 
 class AudioPlayerDecoder {
     let audioPlayer = AVAudioPlayerNode()
