@@ -18,7 +18,7 @@ class SpeakButton : UIView {
     @IBOutlet weak var overlayButton : UIButton!
     @IBOutlet weak var delegate: SpeakButtonDelegate?
     @IBOutlet weak var titleLabel : UILabel!
-    
+
     var enabled : Bool {
         get{
             return overlayButton.enabled
@@ -30,14 +30,14 @@ class SpeakButton : UIView {
         }
     }
     
-    func linkEvents(){
+    func linkEvents() {
 
         self.overlayButton.addTarget(self, action: "didTouchDown:", forControlEvents: .TouchDown)
         self.overlayButton.addTarget(self, action: "didTouchUp:", forControlEvents: .TouchUpInside)
         self.overlayButton.addTarget(self, action: "didTouchUp:", forControlEvents: .TouchUpOutside)
     }
     
-    func commonInit(){
+    func commonInit() {
         self.linkEvents()
         
         self.layer.cornerRadius = 10.0;
@@ -50,26 +50,16 @@ class SpeakButton : UIView {
         self.layer.cornerRadius = self.frame.width / 2.0
     }
     
-    required init(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        
-    }
 
     override func awakeFromNib() {
-        
+        super.awakeFromNib()
         self.addViewFromNib()
         self.commonInit()
     }
     
-    func updateTitleLabel(){
+    func updateTitleLabel() {
         var newText : NSString
-        
-//        if (!self.overlayButton.enabled){
-//            newText = "WAIT"
-//        }else{
-//            newText = self.overlayButton.highlighted ? "ON AIR" : "SPEAK"
-//        }
-        
+
         switch (self.overlayButton.enabled, self.overlayButton.highlighted) {
 
         case (false, _):
@@ -88,27 +78,16 @@ class SpeakButton : UIView {
         self.titleLabel.text = newText
     }
 
-    func updateBackgroundColor(){
-        
-        let selectedColor = UIColor(red: 162.0/255, green: 21.0/255, blue: 1.0/255, alpha: 1)
-        let normalColor = UIColor(red: 40.0/255, green: 90.0/255, blue: 145.0/255, alpha: 1)
-        
-        self.backgroundColor = self.overlayButton.highlighted ? selectedColor : normalColor
+    func updateBackgroundColor() {
+        if self.overlayButton.highlighted {
+            self.backgroundColor = UIColor(red: 162.0/255, green: 21.0/255, blue: 1.0/255, alpha: 1)
+        }
+        else {
+            self.backgroundColor = UIColor(red: 40.0/255, green: 90.0/255, blue: 145.0/255, alpha: 1)
+        }
     }
     
-    /*
-    UIView* detailsView = [[[NSBundle mainBundle] loadNibNamed:nibName owner:self options:nil] lastObject];
-    
-    detailsView.translatesAutoresizingMaskIntoConstraints = NO;
-    [self addSubview:detailsView];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|-0-[detailsView]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(detailsView, self)]];
-    [self addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|-0-[detailsView]-0-|" options:0 metrics:nil views:NSDictionaryOfVariableBindings(detailsView, self)]];
-    
-    [self addSubview:detailsView];
-*/
-    
-    func addViewFromNib(){
-        
+    func addViewFromNib() {
         var views : [AnyObject] = NSBundle.mainBundle().loadNibNamed("SpeakButton", owner: self, options: nil)
         
         var view = views.first as UIView
@@ -119,8 +98,7 @@ class SpeakButton : UIView {
         self.addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|-0-[view]-0-|", options: .allZeros, metrics: nil, views:[ "view" : view, "self" : self ]))
     }
     
-    func didTouchDown(sender : AnyObject){
-        
+    func didTouchDown(sender : AnyObject) {
         println("didTouchDown")
         
         UIView.beginAnimations("TouchDown", context: nil)
@@ -134,8 +112,7 @@ class SpeakButton : UIView {
         delegate?.speakButtonWasTouched(self)
     }
     
-    func didTouchUp(sender : AnyObject){
-        
+    func didTouchUp(sender : AnyObject) {
         println("didTouchUp")
         
         UIView.beginAnimations("TouchUp", context: nil)

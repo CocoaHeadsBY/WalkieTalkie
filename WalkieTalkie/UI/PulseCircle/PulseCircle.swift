@@ -9,19 +9,11 @@
 import UIKit
 
 class PulseCircle: UIView {
-
-    /*
-    // Only override drawRect: if you perform custom drawing.
-    // An empty implementation adversely affects performance during animation.
-    override func drawRect(rect: CGRect) {
-        // Drawing code
-    }
-    */
     let kAnimationDuration = 1.5
+
     @IBInspectable var circleColor : UIColor?
     
     override class func layerClass() -> AnyClass{
-        
         return CAShapeLayer.classForCoder()
     }
     
@@ -30,27 +22,23 @@ class PulseCircle: UIView {
         
         self.setLayerProperties()
         self.attachAnimations()
-        
     }
     
-    func setLayerProperties(){
-        
+    func setLayerProperties() {
         var layer = self.layer as CAShapeLayer
         
         var minLength : CGFloat = 50.0//min(self.frame.height, self.frame.width)
 
         layer.path = UIBezierPath(ovalInRect: self.bounds).CGPath
-//        layer.path = UIBezierPath(ovalInRect: CGRectMake(50, 50, minLength, minLength)).CGPath
         layer.fillColor = self.circleColor?.CGColor
     }
     
-    func attachAnimations(){
+    func attachAnimations() {
         self.attachAlphaAnimations()
         self.attachSizeAnimations()
     }
     
-    func attachAlphaAnimations(){
-        
+    func attachAlphaAnimations() {
         var animation = self.animationWithKeyPath("opacity")
 
         animation.fromValue = 0.8
@@ -59,8 +47,7 @@ class PulseCircle: UIView {
         self.layer.addAnimation(animation, forKey: animation.keyPath)
     }
     
-    func attachSizeAnimations(){
-        println("attach size animations")
+    func attachSizeAnimations() {
         var animation = self.animationWithKeyPath("transform")
         
         var scaleFactor : CGFloat = 1.5
@@ -77,5 +64,4 @@ class PulseCircle: UIView {
         
         return anim
     }
-    
 }
