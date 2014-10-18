@@ -75,10 +75,8 @@ class SpeakButton : UIView {
         println("didTouchDown")
         
         UIView.beginAnimations("TouchDown", context: nil)
-    
-//        self.setBackgroundColour(UIColor.blackColor(), forState: .Normal)
         
-        self.backgroundColor = UIColor(red: 20.0, green: 148.0, blue: 73.0, alpha: 1)
+        self.backgroundColor = UIColor(red: 20.0/255, green: 148.0/255, blue: 73.0/255, alpha: 1)
         
         UIView.commitAnimations()
         
@@ -91,7 +89,7 @@ class SpeakButton : UIView {
         
         UIView.beginAnimations("TouchUp", context: nil)
         
-        self.backgroundColor = UIColor(red: 162.0, green: 21.0, blue: 1.0, alpha: 1)
+        self.backgroundColor = UIColor(red: 162.0/255, green: 21.0/255, blue: 1.0/255, alpha: 1)
         UIView.commitAnimations()
         
         delegate?.speakButtonWasReleased(self)
