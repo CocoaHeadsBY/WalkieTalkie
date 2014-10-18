@@ -14,8 +14,8 @@ class AudioPlayerDecoder {
     var audioPlayer = AVAudioPlayerNode()
     func decodeAndPlay(data: NSData) {
         let buffer = AVAudioPCMBuffer()
-
-        audioPlayer.scheduleBuffer(buffer, completionHandler: {})
+        println("Received \(data.length)")
+//        audioPlayer.scheduleBuffer(buffer, completionHandler: {})
     }
 }
 
@@ -28,6 +28,22 @@ public class AudioEngine {
 
     init() {
 
+        var error : NSError?;
+
+        setupAudioSession()
+
+        engine.connect(engine.mainMixerNode, to: engine.outputNode, format: nil)
+        engine.startAndReturnError(&error)
+
+        if error != nil {
+            println("Error when running engine")
+            println(error)
+        }
+    }
+
+    deinit {
+        engine.stop()
+        stopAudioSession()
     }
 
     public func startRecord(block: CompressedDataClosure) {
@@ -59,4 +75,37 @@ public class AudioEngine {
         }
     }
 
+    private func setupAudioSession () {
+
+        var error : NSError?;
+        let auSession = AVAudioSession.sharedInstance()
+        auSession.setCategory(AVAudioSessionCategoryPlayAndRecord, withOptions: AVAudioSessionCategoryOptions.DefaultToSpeaker, error: &error)
+        if error != nil {
+            println("Error when setting up audio session")
+            println(error)
+        }
+
+        auSession.setMode(AVAudioSessionModeVoiceChat, error: &error)
+        if error != nil {
+            println("Error when setting up audio session")
+            println(error)
+        }
+
+        auSession.setActive(true, withOptions: AVAudioSessionSetActiveOptions.OptionNotifyOthersOnDeactivation, error: &error)
+        if error != nil {
+            println("Error when setting up audio session")
+            println(error)
+        }
+
+        auSession.overrideOutputAudioPort(AVAudioSessionPortOverride.Speaker, error: &error)
+        if error != nil {
+            println("Error when setting up audio session")
+            println(error)
+        }
+
+    }
+
+    private func stopAudioSession () {
+        AVAudioSession.sharedInstance().setActive(false, error: nil)
+    }
 }
