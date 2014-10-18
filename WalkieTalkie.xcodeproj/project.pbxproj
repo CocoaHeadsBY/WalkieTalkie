@@ -90,13 +90,13 @@
 		50ECCE1019F18C38007A65D5 /* WalkieTalkie */ = {
 			isa = PBXGroup;
 			children = (
+				221AC0EF19F26B79009FD639 /* AACAudioConverter.swift */,
 				50ECCE1319F18C38007A65D5 /* AppDelegate.swift */,
 				8FDB86D819F26909008C667A /* AudioEngine.swift */,
 				50ECCE1C19F18C38007A65D5 /* Images.xcassets */,
 				50ECCE6519F1AE29007A65D5 /* SessionContainer.swift */,
 				50ECCE1119F18C38007A65D5 /* Supporting Files */,
 				654C99EF19F271620091BA06 /* UI */,
-				221AC0EF19F26B79009FD639 /* AACAudioConverter.swift */,
 			);
 			path = WalkieTalkie;
 			sourceTree = "<group>";
