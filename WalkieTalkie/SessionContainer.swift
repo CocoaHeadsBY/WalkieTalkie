@@ -20,25 +20,24 @@ protocol PeerCommunicationDelegate: class {
     func peerDisconnected(peerID: MCPeerID)
 }
 
-
 class SessionContainer: NSObject, MCSessionDelegate {
     let serviceType = "CocoaHeadsBY"
-    var advertiser: MCNearbyServiceAdvertiser
+    var advertiser: MCAdvertiserAssistant
     var session: MCSession
+    var peerID: MCPeerID
     weak var delegate: SessionContainerDelegate?
 
     override init() {
-        let peerID = MCPeerID(displayName: UIDevice.currentDevice().name)
-        self.session = MCSession(peer: peerID)
-        self.advertiser = MCNearbyServiceAdvertiser(peer: peerID, discoveryInfo: nil, serviceType: self.serviceType)
+        self.peerID = MCPeerID(displayName: UIDevice.currentDevice().name)
+        self.session = MCSession(peer: self.peerID)
+        self.advertiser = MCAdvertiserAssistant(serviceType: self.serviceType, discoveryInfo: nil, session: self.session)
         super.init()
-        //    self.advertiser.delegate = self
         self.session.delegate = self
-        self.advertiser.startAdvertisingPeer()
+        self.advertiser.start()
     }
 
     deinit {
-        self.advertiser.stopAdvertisingPeer()
+        self.advertiser.stop()
         self.session.disconnect()
     }
 
@@ -54,10 +53,6 @@ class SessionContainer: NSObject, MCSessionDelegate {
             }
         }
     }
-
-    // MARK: MCNearbyServiceAdvertiserDelegate
-
-    // TODO
 
     // MARK: MCSessionDelegate
 
@@ -77,7 +72,7 @@ class SessionContainer: NSObject, MCSessionDelegate {
     }
 
     func session(session: MCSession!, peer peerID: MCPeerID!, didChangeState state: MCSessionState) {
-        println("peer \(peerID.displayName) - \(self.stringFromSessionState(state) )")
+        println("peer \(peerID.displayName) - \(self.stringFromSessionState(state))")
         self.delegate?.sessionContainerDidUpdateListOfConnectedPeers(self)
     }
 

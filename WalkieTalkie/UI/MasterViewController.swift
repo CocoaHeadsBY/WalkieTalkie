@@ -9,7 +9,7 @@
 import UIKit
 import MultipeerConnectivity
 
-class MasterViewController: UITableViewController, MCBrowserViewControllerDelegate, MCNearbyServiceBrowserDelegate, SessionContainerDelegate {
+class MasterViewController: UITableViewController, MCBrowserViewControllerDelegate, SessionContainerDelegate {
     var detailViewController: DetailViewController?
     var sessionContainer: SessionContainer
 
@@ -22,26 +22,10 @@ class MasterViewController: UITableViewController, MCBrowserViewControllerDelega
     // MARK: Methods
 
     func showBrowser() {
-        let browser = MCNearbyServiceBrowser(peer: self.sessionContainer.session.myPeerID, serviceType: self.sessionContainer.serviceType)
-        browser.delegate = self
-
-        let browserVC = MCBrowserViewController(browser: browser, session: self.sessionContainer.session)
+        let browserVC = MCBrowserViewController(serviceType: self.sessionContainer.serviceType, session: self.sessionContainer.session)
         browserVC.delegate = self
         self.presentViewController(browserVC, animated: true, completion: nil)
-        browser.startBrowsingForPeers()
     }
-
-    // MARK: MCNearbyServiceBrowserDelegate
-
-    func browser(browser: MCNearbyServiceBrowser!, foundPeer peerID: MCPeerID!, withDiscoveryInfo info: [NSObject : AnyObject]!) {
-        println("found peer \(peerID)")
-    }
-
-    // A nearby peer has stopped advertising
-    func browser(browser: MCNearbyServiceBrowser!, lostPeer peerID: MCPeerID!) {
-        println("lost peer \(peerID)")
-    }
-
 
     // MARK: MCBrowserViewControllerDelegate
 
@@ -116,7 +100,7 @@ class MasterViewController: UITableViewController, MCBrowserViewControllerDelega
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell", forIndexPath: indexPath) as UITableViewCell
-        
+
         let peer = self.sessionContainer.session.connectedPeers[indexPath.row] as MCPeerID
         cell.textLabel?.text = peer.displayName
         return cell
