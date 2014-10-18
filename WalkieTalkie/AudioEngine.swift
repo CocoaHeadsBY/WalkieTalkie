@@ -31,6 +31,8 @@ public class AudioEngine: PeerCommunicationDelegate {
         var error: NSError?
         engine.startAndReturnError(&error)
         println(error)
+        
+        var encoder = AACAudioEncoder(sourceFormat: engine.outputNode.outputFormatForBus(0).streamDescription)
     }
 
     public func startRecord(block: CompressedDataClosure) {
