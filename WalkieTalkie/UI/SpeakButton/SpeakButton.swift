@@ -24,7 +24,7 @@ class SpeakButton : UIView {
             return overlayButton.enabled
         }
         set{
-            self.titleLabel?.text = newValue ? "SPEAK" : "WAIT"
+            self.updateTitleLabel()
             overlayButton.enabled = newValue
             self.backgroundColor = UIColor.lightGrayColor()
         }
@@ -52,8 +52,41 @@ class SpeakButton : UIView {
         
         self.addViewFromNib()
         self.commonInit()
+    }
+    
+    func updateTitleLabel(){
+        var newText : NSString
         
+//        if (!self.overlayButton.enabled){
+//            newText = "WAIT"
+//        }else{
+//            newText = self.overlayButton.highlighted ? "ON AIR" : "SPEAK"
+//        }
         
+        switch (self.overlayButton.enabled, self.overlayButton.highlighted) {
+
+        case (false, _):
+            newText = "WAIT"
+            
+        case (_, true):
+            newText = "ON AIR"
+            
+        case (_, false):
+            newText = "SPEAK"
+            
+        default:
+            newText = ""
+        }
+        
+        self.titleLabel.text = newText
+    }
+
+    func updateBackgroundColor(){
+        
+        let selectedColor = UIColor(red: 162.0/255, green: 21.0/255, blue: 1.0/255, alpha: 1)
+        let normalColor = UIColor(red: 40.0/255, green: 90.0/255, blue: 145.0/255, alpha: 1)
+        
+        self.backgroundColor = self.overlayButton.highlighted ? selectedColor : normalColor
     }
     
     /*
@@ -85,8 +118,9 @@ class SpeakButton : UIView {
         
         UIView.beginAnimations("TouchDown", context: nil)
         
-        self.backgroundColor = UIColor(red: 162.0/255, green: 21.0/255, blue: 1.0/255, alpha: 1)
-        self.titleLabel.text = "ON AIR"
+        self.overlayButton.highlighted = true
+        self.updateBackgroundColor()
+        self.updateTitleLabel()
         
         UIView.commitAnimations()
         
@@ -98,9 +132,10 @@ class SpeakButton : UIView {
         println("didTouchUp")
         
         UIView.beginAnimations("TouchUp", context: nil)
-        
-        self.backgroundColor = UIColor(red: 40.0/255, green: 90.0/255, blue: 145.0/255, alpha: 1)
-        self.titleLabel.text = self.overlayButton.enabled ? "SPEAK" : "WAIT"
+
+        self.overlayButton.highlighted = false
+        self.updateBackgroundColor()
+        self.updateTitleLabel()
         
         UIView.commitAnimations()
         
