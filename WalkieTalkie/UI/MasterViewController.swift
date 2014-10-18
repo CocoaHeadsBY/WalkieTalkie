@@ -33,8 +33,7 @@ class MasterViewController: UIViewController, UITableViewDataSource, MCBrowserVi
     }
 
     func updateRecordButtonState() {
-        // TODO:
-        // self.recordButton.enabled = self.connectedPeers.count > 0
+        self.recordButton.enabled = self.connectedPeers.count > 0
     }
 
     // MARK: MCBrowserViewControllerDelegate

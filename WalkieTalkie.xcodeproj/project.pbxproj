@@ -144,7 +144,6 @@
 			isa = PBXGroup;
 			children = (
 				6530BBA419F2AB2200C4AF2D /* extensions */,
-				654C99F419F27ED70091BA06 /* DetailViewController.swift */,
 				50ECCE1E19F18C38007A65D5 /* LaunchScreen.xib */,
 				50ECCE1919F18C38007A65D5 /* Main.storyboard */,
 				654C99F519F27ED70091BA06 /* MasterViewController.swift */,
@@ -270,7 +269,6 @@
 				654C99F719F27ED70091BA06 /* MasterViewController.swift in Sources */,
 				8FDB86D919F26909008C667A /* AudioEngine.swift in Sources */,
 				6530BBA619F2AB6700C4AF2D /* UIButton+BackgroundColor.swift in Sources */,
-				221AC0F019F26B79009FD639 /* AACAudioConverter.swift in Sources */,
 				8FA06F7119F2BD7C001E99BD /* AudioQueue.m in Sources */,
 				50ECCE1419F18C38007A65D5 /* AppDelegate.swift in Sources */,
 			);

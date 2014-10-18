@@ -19,6 +19,17 @@ class SpeakButton : UIView {
     @IBOutlet weak var delegate: SpeakButtonDelegate?
     @IBOutlet weak var titleLabel : UILabel!
     
+    var enabled : Bool {
+        get{
+            return overlayButton.enabled
+        }
+        set{
+            self.titleLabel?.text = newValue ? "SPEAK" : "WAIT"
+            overlayButton.enabled = newValue
+            self.backgroundColor = UIColor.lightGrayColor()
+        }
+    }
+    
     func linkEvents(){
 
         self.overlayButton.addTarget(self, action: "didTouchDown:", forControlEvents: .TouchDown)
@@ -88,8 +99,8 @@ class SpeakButton : UIView {
         
         UIView.beginAnimations("TouchUp", context: nil)
         
-        self.backgroundColor = UIColor(red: 145.0/255, green: 145.0/255, blue: 145.0/255, alpha: 1)
-        self.titleLabel.text = "SPEAK"
+        self.backgroundColor = UIColor(red: 40.0/255, green: 90.0/255, blue: 145.0/255, alpha: 1)
+        self.titleLabel.text = self.overlayButton.enabled ? "SPEAK" : "WAIT"
         
         UIView.commitAnimations()
         
