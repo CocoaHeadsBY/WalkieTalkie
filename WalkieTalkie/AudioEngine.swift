@@ -10,10 +10,12 @@ import Foundation
 import AVFoundation
 import MultipeerConnectivity
 
+let generalFormat = AVAudioFormat(standardFormatWithSampleRate: 16000, channels: 1)
+
 class AudioPlayerDecoder {
     let audioPlayer = AVAudioPlayerNode()
     let decoder: AudioQueueDecoder;
-    let buffer = AVAudioPCMBuffer(PCMFormat: AVAudioFormat(standardFormatWithSampleRate: 16000, channels: 1), frameCapacity: 8196)
+    let buffer = AVAudioPCMBuffer(PCMFormat: generalFormat, frameCapacity: 8196)
 
     init () {
         decoder = AudioQueueDecoder(format: buffer.format.streamDescription)
@@ -41,7 +43,7 @@ public class AudioEngine {
         setupAudioSession()
         disableAUIO()
 
-        engine.connect(engine.mainMixerNode, to: engine.outputNode, format: nil)
+        engine.connect(engine.mainMixerNode, to: engine.outputNode, format: generalFormat)
         engine.startAndReturnError(&error)
 
         if error != nil {
@@ -71,7 +73,7 @@ public class AudioEngine {
     func peerConnected(peerID: MCPeerID) {
         let playerDecoder = AudioPlayerDecoder()
         engine.attachNode(playerDecoder.audioPlayer)
-        engine.connect(playerDecoder.audioPlayer, to: engine.mainMixerNode, format: nil)
+        engine.connect(playerDecoder.audioPlayer, to: engine.mainMixerNode, format: generalFormat)
         playerDecoder.audioPlayer.play()
         peerToOutput[peerID] = playerDecoder
     }
