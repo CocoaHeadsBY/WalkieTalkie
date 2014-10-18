@@ -31,6 +31,7 @@ public class AudioEngine {
         var error : NSError?;
 
         setupAudioSession()
+        disableAUIO()
 
         engine.connect(engine.mainMixerNode, to: engine.outputNode, format: nil)
         engine.startAndReturnError(&error)
@@ -107,5 +108,14 @@ public class AudioEngine {
 
     private func stopAudioSession () {
         AVAudioSession.sharedInstance().setActive(false, error: nil)
+    }
+
+    private func disableAUIO () {
+        var disabled : UInt32 = 0;
+        let err = AudioUnitSetProperty(engine.inputNode.audioUnit,
+            AudioUnitPropertyID(kAudioOutputUnitProperty_EnableIO),
+            AudioUnitScope(kAudioUnitScope_Input), 1, &disabled, UInt32(sizeof(UInt32)))
+
+        assert(err == noErr, "Cannot disable input")
     }
 }
