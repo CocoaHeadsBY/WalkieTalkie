@@ -8,16 +8,16 @@
 
 /* Begin PBXBuildFile section */
 		50ECCE1419F18C38007A65D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ECCE1319F18C38007A65D5 /* AppDelegate.swift */; };
-		50ECCE1619F18C38007A65D5 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ECCE1519F18C38007A65D5 /* MasterViewController.swift */; };
-		50ECCE1819F18C38007A65D5 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ECCE1719F18C38007A65D5 /* DetailViewController.swift */; };
 		50ECCE1B19F18C38007A65D5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50ECCE1919F18C38007A65D5 /* Main.storyboard */; };
 		50ECCE1D19F18C38007A65D5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50ECCE1C19F18C38007A65D5 /* Images.xcassets */; };
 		50ECCE2019F18C38007A65D5 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 50ECCE1E19F18C38007A65D5 /* LaunchScreen.xib */; };
 		50ECCE2C19F18C38007A65D5 /* WalkieTalkieTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ECCE2B19F18C38007A65D5 /* WalkieTalkieTests.swift */; };
 		50ECCE6619F1AE29007A65D5 /* SessionContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ECCE6519F1AE29007A65D5 /* SessionContainer.swift */; };
-		8FDB86D919F26909008C667A /* AudioEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FDB86D819F26909008C667A /* AudioEngine.swift */; };
 		654C99F219F271AF0091BA06 /* SpeakButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654C99F119F271AF0091BA06 /* SpeakButton.swift */; };
 		654C99F319F271B20091BA06 /* SpeakButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654C99F119F271AF0091BA06 /* SpeakButton.swift */; };
+		654C99F619F27ED70091BA06 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654C99F419F27ED70091BA06 /* DetailViewController.swift */; };
+		654C99F719F27ED70091BA06 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654C99F519F27ED70091BA06 /* MasterViewController.swift */; };
+		8FDB86D919F26909008C667A /* AudioEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FDB86D819F26909008C667A /* AudioEngine.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,8 +34,6 @@
 		50ECCE0E19F18C38007A65D5 /* WalkieTalkie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WalkieTalkie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50ECCE1219F18C38007A65D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50ECCE1319F18C38007A65D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		50ECCE1519F18C38007A65D5 /* MasterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MasterViewController.swift; sourceTree = "<group>"; };
-		50ECCE1719F18C38007A65D5 /* DetailViewController.swift */ = {isa = PBXFileReference; indentWidth = 4; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; tabWidth = 4; };
 		50ECCE1A19F18C38007A65D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		50ECCE1C19F18C38007A65D5 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		50ECCE1F19F18C38007A65D5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -43,8 +41,10 @@
 		50ECCE2A19F18C38007A65D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50ECCE2B19F18C38007A65D5 /* WalkieTalkieTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WalkieTalkieTests.swift; sourceTree = "<group>"; };
 		50ECCE6519F1AE29007A65D5 /* SessionContainer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SessionContainer.swift; sourceTree = "<group>"; };
-		8FDB86D819F26909008C667A /* AudioEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioEngine.swift; sourceTree = "<group>"; };
 		654C99F119F271AF0091BA06 /* SpeakButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeakButton.swift; sourceTree = "<group>"; };
+		654C99F419F27ED70091BA06 /* DetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = DetailViewController.swift; path = UI/DetailViewController.swift; sourceTree = "<group>"; };
+		654C99F519F27ED70091BA06 /* MasterViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MasterViewController.swift; path = UI/MasterViewController.swift; sourceTree = "<group>"; };
+		8FDB86D819F26909008C667A /* AudioEngine.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioEngine.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -72,15 +72,9 @@
 				50ECCE2819F18C38007A65D5 /* WalkieTalkieTests */,
 				50ECCE0F19F18C38007A65D5 /* Products */,
 			);
-<<<<<<< HEAD
 			indentWidth = 4;
 			sourceTree = "<group>";
 			tabWidth = 4;
-=======
-			indentWidth = 2;
-			sourceTree = "<group>";
-			tabWidth = 2;
->>>>>>> added SpeakButton
 		};
 		50ECCE0F19F18C38007A65D5 /* Products */ = {
 			isa = PBXGroup;
@@ -94,16 +88,12 @@
 		50ECCE1019F18C38007A65D5 /* WalkieTalkie */ = {
 			isa = PBXGroup;
 			children = (
-				654C99EF19F271620091BA06 /* UI */,
 				50ECCE1319F18C38007A65D5 /* AppDelegate.swift */,
-				50ECCE1719F18C38007A65D5 /* DetailViewController.swift */,
 				8FDB86D819F26909008C667A /* AudioEngine.swift */,
 				50ECCE1C19F18C38007A65D5 /* Images.xcassets */,
-				50ECCE1E19F18C38007A65D5 /* LaunchScreen.xib */,
-				50ECCE1919F18C38007A65D5 /* Main.storyboard */,
-				50ECCE1519F18C38007A65D5 /* MasterViewController.swift */,
 				50ECCE6519F1AE29007A65D5 /* SessionContainer.swift */,
 				50ECCE1119F18C38007A65D5 /* Supporting Files */,
+				654C99EF19F271620091BA06 /* UI */,
 			);
 			path = WalkieTalkie;
 			sourceTree = "<group>";
@@ -136,6 +126,10 @@
 		654C99EF19F271620091BA06 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				654C99F419F27ED70091BA06 /* DetailViewController.swift */,
+				50ECCE1E19F18C38007A65D5 /* LaunchScreen.xib */,
+				50ECCE1919F18C38007A65D5 /* Main.storyboard */,
+				654C99F519F27ED70091BA06 /* MasterViewController.swift */,
 				654C99F019F271930091BA06 /* SpeakButton */,
 			);
 			name = UI;
@@ -253,9 +247,9 @@
 			files = (
 				654C99F219F271AF0091BA06 /* SpeakButton.swift in Sources */,
 				50ECCE6619F1AE29007A65D5 /* SessionContainer.swift in Sources */,
+				654C99F719F27ED70091BA06 /* MasterViewController.swift in Sources */,
+				654C99F619F27ED70091BA06 /* DetailViewController.swift in Sources */,
 				8FDB86D919F26909008C667A /* AudioEngine.swift in Sources */,
-				50ECCE1819F18C38007A65D5 /* DetailViewController.swift in Sources */,
-				50ECCE1619F18C38007A65D5 /* MasterViewController.swift in Sources */,
 				50ECCE1419F18C38007A65D5 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
