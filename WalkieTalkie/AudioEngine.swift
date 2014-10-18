@@ -16,8 +16,7 @@ class AudioPlayerDecoder {
     let buffer = AVAudioPCMBuffer(PCMFormat: AVAudioFormat(standardFormatWithSampleRate: 16000, channels: 1), frameCapacity: 8196)
 
     init () {
-        let inputFormat = self.audioPlayer.outputFormatForBus(0)
-        decoder = AudioQueueDecoder(format: inputFormat.streamDescription)
+        decoder = AudioQueueDecoder(format: buffer.format.streamDescription)
     }
 
     func decodeAndPlay(data: NSData) {

@@ -20,6 +20,10 @@ static const AudioStreamBasicDescription asbdAAC = {
     .mReserved = 0
 };
 
+static const AudioChannelLayout channelLayout = {
+    .mChannelLayoutTag = kAudioChannelLayoutTag_Mono
+};
+
 @interface AudioQueueRecorder () {
     AudioQueueRef inputQueue;
     AudioQueueBufferRef	aqBuffers[10];
@@ -125,7 +129,7 @@ static void audioQueueOutputCallback(void *                  inUserData,
         st = AudioQueueAllocateBuffer(decoderQueue, 8192, &outputBuffer);
         NSAssert(st == noErr, @"AudioQueueAllocateBuffer failed with err %d", (int)st);
 
-        st = AudioQueueSetOfflineRenderFormat(decoderQueue, format, NULL);
+        st = AudioQueueSetOfflineRenderFormat(decoderQueue, format, &channelLayout);
         NSAssert(st == noErr, @"AudioQueueSetOfflineRenderFormat st = %d", (int)st);
 
         st = AudioQueueStart(decoderQueue, NULL);
@@ -151,7 +155,7 @@ static void audioQueueOutputCallback(void *                  inUserData,
     ts.mSampleTime = *((Float64 *)data.bytes);
     ts.mFlags = kAudioTimeStampSampleTimeValid;
 
-    inputBuffer->mAudioDataByteSize = data.length - sizeof(Float64);
+    inputBuffer->mAudioDataByteSize = (UInt32)(data.length - sizeof(Float64));
     [data getBytes:inputBuffer->mAudioData range:NSMakeRange(sizeof(Float64), inputBuffer->mAudioDataByteSize)];
 
     AudioStreamPacketDescription packetDescription = {
