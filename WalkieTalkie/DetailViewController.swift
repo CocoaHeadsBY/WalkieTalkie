@@ -8,9 +8,10 @@
 
 import UIKit
 
-class DetailViewController: UIViewController {
+class DetailViewController: UIViewController, SpeakButtonDelegate {
 
     @IBOutlet weak var detailDescriptionLabel: UILabel!
+    @IBOutlet weak var speakButton: SpeakButton!
 
     var detailItem: AnyObject? {
         didSet {
@@ -34,6 +35,17 @@ class DetailViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         self.configureView()
+    }
+    
+    
+    // MARK: SpeakButtonDelegate
+    
+    func speakButtonWasReleased(speakButton: SpeakButton) {
+        
+    }
+    
+    func speakButtonWasTouched(speakButton: SpeakButton) {
+        
     }
 }
 
