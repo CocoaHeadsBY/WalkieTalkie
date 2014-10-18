@@ -9,15 +9,11 @@
 import UIKit
 import MultipeerConnectivity
 
+/// Methods defined in the protocol called on main thread
 protocol SessionContainerDelegate: class {
-    func sessionContainer(SessionContainer, didReceive data: NSData, peer peerID: protocol<NSObjectProtocol, NSCopying>)
-    func sessionContainerDidUpdateListOfConnectedPeers(SessionContainer)
-}
-
-protocol PeerCommunicationDelegate: class {
-    func didReceive(data: NSData, fromPeer peerID: MCPeerID)
-    func peerConnected(peerID: MCPeerID)
-    func peerDisconnected(peerID: MCPeerID)
+    func sessionContainer(SessionContainer, didReceiveData data: NSData, fromPeer peerID: MCPeerID)
+    func sessionContainer(SessionContainer, peerConnected peerID: MCPeerID)
+    func sessionContainer(SessionContainer, peerDisconnected peerID: MCPeerID)
 }
 
 class SessionContainer: NSObject, MCSessionDelegate {
@@ -54,12 +50,6 @@ class SessionContainer: NSObject, MCSessionDelegate {
         }
     }
 
-    // MARK: MCSessionDelegate
-
-    func session(session: MCSession!, didReceiveData data: NSData!, fromPeer peerID: MCPeerID!) {
-        self.delegate?.sessionContainer(self, didReceive: data, peer: peerID)
-    }
-
     func stringFromSessionState(state: MCSessionState) -> String {
         switch state {
         case .NotConnected:
@@ -71,9 +61,33 @@ class SessionContainer: NSObject, MCSessionDelegate {
         }
     }
 
+    // MARK: MCSessionDelegate
+
+    func session(session: MCSession!, didReceiveData data: NSData!, fromPeer peerID: MCPeerID!) {
+        if let delegate = self.delegate {
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                delegate.sessionContainer(self, didReceiveData: data, fromPeer: peerID)
+            });
+        }
+    }
+
     func session(session: MCSession!, peer peerID: MCPeerID!, didChangeState state: MCSessionState) {
-        println("peer \(peerID.displayName) - \(self.stringFromSessionState(state))")
-        self.delegate?.sessionContainerDidUpdateListOfConnectedPeers(self)
+        println("peer \(peerID.displayName) didChangeState \(self.stringFromSessionState(state))")
+
+        if (state == .Connecting) {
+            return
+        }
+
+        if let delegate = self.delegate {
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                if (state == .Connected) {
+                    delegate.sessionContainer(self, peerConnected: peerID)
+                }
+                else if (state == .NotConnected) {
+                    delegate.sessionContainer(self, peerDisconnected: peerID)
+                }
+            });
+        }
     }
 
     // http://stackoverflow.com/a/19696074/434224

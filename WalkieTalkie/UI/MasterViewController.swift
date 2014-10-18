@@ -11,6 +11,8 @@ import MultipeerConnectivity
 
 class MasterViewController: UIViewController, UITableViewDataSource, MCBrowserViewControllerDelegate, SessionContainerDelegate {
     @IBOutlet weak var tableView: UITableView!
+    var connectedPeers = NSMutableArray()
+    var audioEngine = AudioEngine()
 
     var sessionContainer: SessionContainer
 
@@ -44,11 +46,19 @@ class MasterViewController: UIViewController, UITableViewDataSource, MCBrowserVi
 
     // MARK: SessionContainerDelegate
 
-    func sessionContainer(SessionContainer, didReceive data: NSData, peer peerID: protocol<NSObjectProtocol, NSCopying>) {
-
+    func sessionContainer(SessionContainer, didReceiveData data: NSData, fromPeer peerID: MCPeerID) {
+        self.audioEngine.didReceive(data, fromPeer: peerID)
     }
 
-    func sessionContainerDidUpdateListOfConnectedPeers(_: SessionContainer) {
+    func sessionContainer(SessionContainer, peerConnected peerID: MCPeerID) {
+        self.audioEngine.peerConnected(peerID)
+        self.connectedPeers.addObject(peerID)
+        self.tableView.reloadData()
+    }
+
+    func sessionContainer(SessionContainer, peerDisconnected peerID: MCPeerID) {
+        self.audioEngine.peerDisconnected(peerID)
+        self.connectedPeers.removeObject(peerID)
         self.tableView.reloadData()
     }
 
@@ -68,13 +78,13 @@ class MasterViewController: UIViewController, UITableViewDataSource, MCBrowserVi
     }
 
     func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.sessionContainer.session.connectedPeers.count
+        return self.connectedPeers.count
     }
 
     func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("Cell") as UITableViewCell
 
-        let peer = self.sessionContainer.session.connectedPeers[indexPath.row] as MCPeerID
+        let peer = self.connectedPeers[indexPath.row] as MCPeerID
         cell.textLabel?.text = peer.displayName
         return cell
     }

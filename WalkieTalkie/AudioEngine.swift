@@ -21,7 +21,7 @@ class AudioPlayerDecoder {
 
 public typealias CompressedDataClosure = (dataToSend: NSData!) -> ()
 
-public class AudioEngine: PeerCommunicationDelegate {
+public class AudioEngine {
     let engine = AVAudioEngine()
     var peerToOutput = Dictionary<MCPeerID, AudioPlayerDecoder>()
     let recorder = AudioQueueRecorder()
@@ -39,7 +39,6 @@ public class AudioEngine: PeerCommunicationDelegate {
         recorder.stop()
     }
 
-    // PeerCommunicationDelegate implementation
     func didReceive(data: NSData, fromPeer peerID: MCPeerID) {
         peerToOutput[peerID]?.decodeAndPlay(data)
     }

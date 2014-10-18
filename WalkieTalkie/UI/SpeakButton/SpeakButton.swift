@@ -19,7 +19,7 @@ protocol SpeakButtonDelegate : class {
 class SpeakButton : UIButton {
     
     weak var delegate : SpeakButtonDelegate?
-    
+
     func linkEvents(){
         
         self.addTarget(self, action: "didTouchDown:", forControlEvents: .TouchDown)
