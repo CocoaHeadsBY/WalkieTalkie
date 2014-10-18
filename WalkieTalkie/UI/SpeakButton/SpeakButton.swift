@@ -9,6 +9,7 @@
 import Foundation
 import UIKit
 
+
 protocol SpeakButtonDelegate : class {
     
     func speakButtonWasTouched(speakButton: SpeakButton)
@@ -76,7 +77,8 @@ class SpeakButton : UIView {
         
         UIView.beginAnimations("TouchDown", context: nil)
         
-        self.backgroundColor = UIColor(red: 20.0/255, green: 148.0/255, blue: 73.0/255, alpha: 1)
+        self.backgroundColor = UIColor(red: 162.0/255, green: 21.0/255, blue: 1.0/255, alpha: 1)
+        //UIColor(red: 20.0/255, green: 148.0/255, blue: 73.0/255, alpha: 1)
         
         UIView.commitAnimations()
         
@@ -89,7 +91,7 @@ class SpeakButton : UIView {
         
         UIView.beginAnimations("TouchUp", context: nil)
         
-        self.backgroundColor = UIColor(red: 162.0/255, green: 21.0/255, blue: 1.0/255, alpha: 1)
+        self.backgroundColor = UIColor(red: 145.0/255, green: 145.0/255, blue: 145.0/255, alpha: 1)
         UIView.commitAnimations()
         
         delegate?.speakButtonWasReleased(self)
