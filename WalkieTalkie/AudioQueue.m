@@ -10,13 +10,13 @@
 
 static AudioStreamBasicDescription asbdAAC = {
     .mSampleRate = 8000,
-    .mFormatID = kAudioFormatLinearPCM,
-    .mFormatFlags = kLinearPCMFormatFlagIsSignedInteger,
-    .mBytesPerPacket = 480,
+    .mFormatID = kAudioFormatiLBC,
+    .mFormatFlags = 0,
+    .mBytesPerPacket = 50,
     .mFramesPerPacket = 240,
-    .mBytesPerFrame = 2,
+    .mBytesPerFrame = 0,
     .mChannelsPerFrame = 1,
-    .mBitsPerChannel = 16,
+    .mBitsPerChannel = 0,
     .mReserved = 0
 };
 
@@ -156,7 +156,7 @@ static void audioQueueOutputCallback(void *                  inUserData,
 }
 
 - (void)decodeData:(NSData *)data toBuffer:(AVAudioPCMBuffer *)buffer {
-/*
+
     AudioTimeStamp ts;
     ts.mSampleTime = *((Float64 *)data.bytes);
     ts.mFlags = kAudioTimeStampSampleTimeValid;
@@ -164,28 +164,23 @@ static void audioQueueOutputCallback(void *                  inUserData,
     inputBuffer->mAudioDataByteSize = (UInt32)(data.length - sizeof(Float64));
     [data getBytes:inputBuffer->mAudioData range:NSMakeRange(sizeof(Float64), inputBuffer->mAudioDataByteSize)];
 
-    AudioStreamPacketDescription packetDescription = {
-        .mStartOffset = 0,
-        .mVariableFramesInPacket = 0,
-        .mDataByteSize = inputBuffer->mAudioDataByteSize
-    };
-    OSStatus st = AudioQueueEnqueueBuffer(decoderQueue, inputBuffer, 0, NULL);
-    NSAssert(st == noErr, @"AudioQueueEnqueueBuffer failed with err %d", (int)st);
-
-    st = AudioQueueOfflineRender(decoderQueue, &ts, outputBuffer, 1024);
+    OSStatus st = AudioQueueOfflineRender(decoderQueue, &ts, outputBuffer, 2048);
     NSLog(@"Decoded bytes %d", outputBuffer->mAudioDataByteSize);
     memcpy(buffer.mutableAudioBufferList->mBuffers[0].mData, outputBuffer->mAudioData, outputBuffer->mAudioDataByteSize);
     buffer.mutableAudioBufferList->mBuffers[0].mDataByteSize = outputBuffer->mAudioDataByteSize;
     buffer.frameLength = outputBuffer->mAudioDataByteSize / 2;
 
     NSAssert(st == noErr, @"AudioQueueOfflineRender failed with err %d", (int)st);
- */
-    [data getBytes:buffer.mutableAudioBufferList->mBuffers[0].mData range:NSMakeRange(sizeof(Float64), (UInt32)(data.length - sizeof(Float64)))];
-    buffer.mutableAudioBufferList->mBuffers[0].mDataByteSize;
-    buffer.frameLength = (UInt32)(data.length - sizeof(Float64)) / 2;
 }
 
 - (void)queueOutputBuffer:(AudioQueueBufferRef)buffer {
+    AudioStreamPacketDescription packetDescription = {
+        .mStartOffset = 0, 
+        .mVariableFramesInPacket = 0,
+        .mDataByteSize = inputBuffer->mAudioDataByteSize
+    };
+    OSStatus st = AudioQueueEnqueueBuffer(decoderQueue, inputBuffer, (inputBuffer->mAudioDataByteSize - 8) / 50, NULL);
+    NSAssert(st == noErr, @"AudioQueueEnqueueBuffer failed with err %d", (int)st);
 }
 
 @end
