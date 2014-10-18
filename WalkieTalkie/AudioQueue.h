@@ -10,7 +10,11 @@
 
 @interface AudioQueueRecorder : NSObject
 
+@property (strong) void (^dataProducedBlock)(NSData *data);
+
 - (instancetype)init;
 - (void)start;
 - (void)stop;
+
+
 @end

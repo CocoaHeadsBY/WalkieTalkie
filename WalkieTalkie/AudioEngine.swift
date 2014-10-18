@@ -19,7 +19,7 @@ class AudioPlayerDecoder {
     }
 }
 
-public typealias CompressedDataClosure = (dataToSend: NSData) -> ()
+public typealias CompressedDataClosure = (dataToSend: NSData!) -> ()
 
 public class AudioEngine: PeerCommunicationDelegate {
     let engine = AVAudioEngine()
@@ -27,15 +27,16 @@ public class AudioEngine: PeerCommunicationDelegate {
     let recorder = AudioQueueRecorder()
 
     init() {
-        recorder.start()
+
     }
 
     public func startRecord(block: CompressedDataClosure) {
-
+        recorder.dataProducedBlock = block;
+        recorder.start();
     }
 
     public func stopRecord() {
-        engine.inputNode.removeTapOnBus(AVAudioNodeBus(0))
+        recorder.stop()
     }
 
     // PeerCommunicationDelegate implementation
@@ -45,10 +46,10 @@ public class AudioEngine: PeerCommunicationDelegate {
 
     func peerConnected(peerID: MCPeerID) {
         let playerDecoder = AudioPlayerDecoder()
-        engine.attachNode(playerDecoder.audioPlayer)
-        engine.connect(playerDecoder.audioPlayer, to: engine.mainMixerNode, format: nil)
-        playerDecoder.audioPlayer.play()
-        peerToOutput[peerID] = playerDecoder
+        //engine.attachNode(playerDecoder.audioPlayer)
+        //engine.connect(playerDecoder.audioPlayer, to: engine.mainMixerNode, format: nil)
+        //playerDecoder.audioPlayer.play()
+        //peerToOutput[peerID] = playerDecoder
     }
 
     func peerDisconnected(peerID: MCPeerID) {

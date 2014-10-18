@@ -10,20 +10,20 @@
 #include <AudioToolbox/AudioToolbox.h>
 
 static const AudioStreamBasicDescription asbdAAC = {
-    .mSampleRate = 220150.,
-    .mFormatID = kAudioFormatMPEG4AAC_ELD_V2,
+    .mSampleRate = 16000,
+    .mFormatID = kAudioFormatMPEG4AAC,
     .mFormatFlags = 0,
     .mBytesPerPacket = 0,
     .mFramesPerPacket = 1024,
     .mBytesPerFrame = 0,
     .mChannelsPerFrame = 1,
-    .mBitsPerChannel = 16,
+    .mBitsPerChannel = 0,
     .mReserved = 0
 };
 
 @interface AudioQueueRecorder () {
     AudioQueueRef inputQueue;
-    AudioQueueBufferRef	aqBuffers[3];
+    AudioQueueBufferRef	aqBuffers[10];
 }
 
 - (void)queueInputBuffer:(AudioQueueBufferRef)buffer startTime:(const AudioTimeStamp *)startTime numberPackets:(UInt32)numberPackets packetDescs:(const AudioStreamPacketDescription *)descs;
@@ -43,6 +43,10 @@ static void audioQueueInputCallback(void *                          inUserData,
 
 @implementation AudioQueueRecorder
 
+- (void)dealloc {
+    NSLog(@"Deallocated");
+}
+
 - (instancetype)init {
     if (self = [super init]) {
         OSStatus st = AudioQueueNewInput(
@@ -51,16 +55,16 @@ static void audioQueueInputCallback(void *                          inUserData,
                            (__bridge void*)self,
                            NULL /* run loop */, NULL /* run loop mode */,
                            0 /* flags */, &inputQueue);
-        NSAssert(st == noErr, @"st = &d", st);
+        NSAssert(st == noErr, @"st = %d", (int)st);
         AudioStreamBasicDescription recordFormat;
         st = AudioQueueGetProperty(inputQueue, kAudioQueueProperty_StreamDescription,
                                    &recordFormat, &(UInt32){sizeof(AudioStreamBasicDescription)});
-        NSAssert(st == noErr, @"st = &d", st);
-        for (int i = 0; i < 3; ++i) {
+        NSAssert(st == noErr, @"st = %d", (int)st);
+        for (int i = 0; i < 10; ++i) {
             st = AudioQueueAllocateBuffer(inputQueue, 1024, &aqBuffers[i]);
-            NSAssert(st == noErr, @"AudioQueueAllocateBuffer failed with err %d", st);
+            NSAssert(st == noErr, @"AudioQueueAllocateBuffer failed with err %d", (int)st);
             st = AudioQueueEnqueueBuffer(inputQueue, aqBuffers[i], 0, NULL);
-            NSAssert(st == noErr, @"AudioQueueEnqueueBuffer failed with err %d", st);
+            NSAssert(st == noErr, @"AudioQueueEnqueueBuffer failed with err %d", (int)st);
         }
     }
     return self;
@@ -78,7 +82,11 @@ static void audioQueueInputCallback(void *                          inUserData,
 }
 
 - (void)queueInputBuffer:(AudioQueueBufferRef)buffer startTime:(const AudioTimeStamp *)startTime numberPackets:(UInt32)numberPackets packetDescs:(const AudioStreamPacketDescription *)descs {
-
+    if (_dataProducedBlock) {
+        _dataProducedBlock([NSData dataWithBytes:buffer->mAudioData length:buffer->mAudioDataByteSize]);
+    }
+    AudioQueueEnqueueBuffer(inputQueue, buffer, 0, NULL);
+    NSLog(@"Has frames %d", (int)numberPackets);
 }
 
 @end
