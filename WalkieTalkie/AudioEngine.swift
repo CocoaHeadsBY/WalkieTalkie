@@ -52,9 +52,13 @@ public class AudioEngine {
     let engine = AVAudioEngine()
     var peerToOutput = Dictionary<MCPeerID, AudioPlayerDecoder>()
     let recorder = AudioQueueRecorder()
+    var auPlayer : AVAudioPlayer
 
     init() {
         var error : NSError?;
+
+        var soundUrl = NSBundle.mainBundle().URLForResource("noise", withExtension: "mp3")
+        auPlayer = AVAudioPlayer(contentsOfURL: soundUrl, error: nil)
 
         setupAudioSession()
         disableAUIO()
@@ -83,6 +87,12 @@ public class AudioEngine {
     }
 
     func didReceive(data: NSData, fromPeer peerID: MCPeerID) {
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            if self.auPlayer.playing == false {
+                self.auPlayer.play()
+            }
+        });
+
         peerToOutput[peerID]?.decodeAndPlay(data)
     }
 

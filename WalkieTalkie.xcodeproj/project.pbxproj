@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5094CA0B19F3F3D000EC70A8 /* noise.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 5094CA0A19F3F3D000EC70A8 /* noise.mp3 */; };
 		50ECCE1419F18C38007A65D5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50ECCE1319F18C38007A65D5 /* AppDelegate.swift */; };
 		50ECCE1B19F18C38007A65D5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 50ECCE1919F18C38007A65D5 /* Main.storyboard */; };
 		50ECCE1D19F18C38007A65D5 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 50ECCE1C19F18C38007A65D5 /* Images.xcassets */; };
@@ -33,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5094CA0A19F3F3D000EC70A8 /* noise.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = noise.mp3; sourceTree = "<group>"; };
 		50ECCE0E19F18C38007A65D5 /* WalkieTalkie.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WalkieTalkie.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50ECCE1219F18C38007A65D5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		50ECCE1319F18C38007A65D5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -95,6 +97,7 @@
 		50ECCE1019F18C38007A65D5 /* WalkieTalkie */ = {
 			isa = PBXGroup;
 			children = (
+				5094CA0A19F3F3D000EC70A8 /* noise.mp3 */,
 				50ECCE1319F18C38007A65D5 /* AppDelegate.swift */,
 				8FDB86D819F26909008C667A /* AudioEngine.swift */,
 				8FA06F6F19F2BD7C001E99BD /* AudioQueue.h */,
@@ -257,6 +260,7 @@
 				6530BBA819F2B45A00C4AF2D /* SpeakButton.xib in Resources */,
 				50ECCE1B19F18C38007A65D5 /* Main.storyboard in Resources */,
 				50ECCE2019F18C38007A65D5 /* LaunchScreen.xib in Resources */,
+				5094CA0B19F3F3D000EC70A8 /* noise.mp3 in Resources */,
 				50ECCE1D19F18C38007A65D5 /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

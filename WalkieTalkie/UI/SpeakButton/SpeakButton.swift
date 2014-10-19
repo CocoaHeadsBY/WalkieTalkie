@@ -49,10 +49,10 @@ class SpeakButton : UIView, SpeakButtonProtocol {
     }
     
     var enabled : Bool {
-        get{
+        get {
             return overlayButton.enabled
         }
-        set{
+        set {
             overlayButton.enabled = newValue
             self.transmitterState = newValue ? .Idle : .NotAvailable
             
@@ -183,7 +183,11 @@ class SpeakButton : UIView, SpeakButtonProtocol {
     }
     
     func didReceiveSoundAtLevel(level : Float) {
-        
+
+        if (self.transmitterState == .Receiving){
+            return
+        }
+
         self.tryToSetTransmitterState(.Receiving)
         
         dispatch_after(dispatch_time(
