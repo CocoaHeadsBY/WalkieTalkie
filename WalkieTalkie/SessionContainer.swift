@@ -90,7 +90,7 @@ class SessionContainer: NSObject, MCSessionDelegate {
         }
     }
 
-    func session(session: MCSession!, peer peerID: MCPeerID!, didChangeState state: MCSessionState) {
+    func session(session: MCSession, peer peerID: MCPeerID!, didChangeState state: MCSessionState) {
         println("peer \(peerID.displayName) didChangeState \(self.stringFromSessionState(state))")
 
         if (state == .Connecting) {

@@ -26,7 +26,7 @@ class SpeakButton : UIView {
         set{
             overlayButton.enabled = newValue
             self.updateTitleLabel()
-            self.backgroundColor = UIColor.lightGrayColor()
+            self.updateBackgroundColor()
         }
     }
     
@@ -69,7 +69,7 @@ class SpeakButton : UIView {
             newText = "ON AIR"
             
         case (_, false):
-            newText = "HOLD \n&\n SPEAK"
+            newText = "HOLD\n&\nSPEAK"
             
         default:
             newText = ""
@@ -79,12 +79,18 @@ class SpeakButton : UIView {
     }
 
     func updateBackgroundColor() {
-        if self.overlayButton.highlighted {
-            self.backgroundColor = UIColor(red: 162.0/255, green: 21.0/255, blue: 1.0/255, alpha: 1)
+        
+        if (!self.overlayButton.enabled){
+            self.backgroundColor = UIColor.lightGrayColor()
+        }else{
+            if self.overlayButton.highlighted {
+                self.backgroundColor = UIColor(red: 162.0/255, green: 21.0/255, blue: 1.0/255, alpha: 1)
+            }
+            else {
+                self.backgroundColor = UIColor(red: 40.0/255, green: 90.0/255, blue: 145.0/255, alpha: 1)
+            }
         }
-        else {
-            self.backgroundColor = UIColor(red: 40.0/255, green: 90.0/255, blue: 145.0/255, alpha: 1)
-        }
+        
     }
     
     func addViewFromNib() {
