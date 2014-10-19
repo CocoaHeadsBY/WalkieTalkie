@@ -34,14 +34,14 @@
 
 ![inline fit](swift.png)
 
-\* With just a little pieces of Objective-C and C.
+\* With just a little pieces in Objective-C and C.
 
 ---
 
 # [fit] Technology Stack
 
 * Bonjour for device advertising and discovery
-* Wi-Fi and Bluettoth for communication
+* Wi-Fi and Bluetooth for communication
 * Object Oriented APIs of Audio Unit added in iOS 8
 * Up to 8 devices can participate
 * Swift, C, Objective-C
