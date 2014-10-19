@@ -9,14 +9,14 @@
 #import "AudioQueue.h"
 
 static AudioStreamBasicDescription asbdAAC = {
-    .mSampleRate = 8000,
-    .mFormatID = kAudioFormatiLBC,
-    .mFormatFlags = 0,
-    .mBytesPerPacket = 50,
-    .mFramesPerPacket = 240,
-    .mBytesPerFrame = 0,
-    .mChannelsPerFrame = 1,
-    .mBitsPerChannel = 0,
+    .mSampleRate = 44100,
+    .mFormatID = kAudioFormatLinearPCM,
+    .mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian,
+    .mBytesPerPacket = 4,
+    .mFramesPerPacket = 1,
+    .mBytesPerFrame = 4,
+    .mChannelsPerFrame = 2,
+    .mBitsPerChannel = 16,
     .mReserved = 0
 };
 
@@ -27,6 +27,7 @@ static const AudioChannelLayout channelLayout = {
 @interface AudioQueueRecorder () {
     AudioQueueRef inputQueue;
     AudioQueueBufferRef	aqBuffers[3];
+    AudioQueueDecoder * decoder;
 }
 
 - (void)queueInputBuffer:(AudioQueueBufferRef)buffer startTime:(const AudioTimeStamp *)startTime numberPackets:(UInt32)numberPackets packetDescs:(const AudioStreamPacketDescription *)descs;
@@ -91,6 +92,18 @@ static void audioQueueInputCallback(void *                          inUserData,
         NSMutableData *ts = [NSMutableData dataWithBytes:(void *)&startTime->mSampleTime length:sizeof(startTime->mSampleTime)];
         [ts appendBytes:buffer->mAudioData length:buffer->mAudioDataByteSize];
         _dataProducedBlock(ts);
+        
+
+        AVAudioFormat *format = [[AVAudioFormat alloc] initStandardFormatWithSampleRate:8000 channels:1];
+        
+        static dispatch_once_t onceToken;
+        dispatch_once(&onceToken, ^{
+            decoder = [[AudioQueueDecoder alloc] initWithFormat:format.streamDescription];
+        });
+        
+        AVAudioPCMBuffer *buffer = [[AVAudioPCMBuffer alloc] initWithPCMFormat:format frameCapacity:8192];
+        [decoder decodeData:ts toBuffer:buffer];
+
     }
     AudioQueueEnqueueBuffer(inputQueue, buffer, 0, NULL);
 }

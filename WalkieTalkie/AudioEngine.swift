@@ -23,7 +23,13 @@ class AudioPlayerDecoder {
 
     func decodeAndPlay(data: NSData) {
         println("Received \(data.length)")
-        decoder.decodeData(data, toBuffer: buffer)
+//        decoder.decodeData(data, toBuffer: buffer)
+        
+        var streamDesc = AudioStreamBasicDescription(mSampleRate: 44100, mFormatID: AudioFormatID(kAudioFormatLinearPCM), mFormatFlags: AudioFormatFlags( kAudioFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian), mBytesPerPacket: 4, mFramesPerPacket: 1, mBytesPerFrame: 4, mChannelsPerFrame: 2, mBitsPerChannel: 16, mReserved: 0)
+        var auFormat = AVAudioFormat(streamDescription: &streamDesc)
+        let buffer = AVAudioPCMBuffer(PCMFormat: auFormat, frameCapacity: 8196)
+        
+        
         if (buffer.frameLength > 0) {
             audioPlayer.scheduleBuffer(buffer, completionHandler: { println("Frame played") })
         }
