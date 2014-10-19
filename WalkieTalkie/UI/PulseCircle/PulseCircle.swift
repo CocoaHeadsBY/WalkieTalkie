@@ -9,9 +9,26 @@
 import UIKit
 
 class PulseCircle: UIView {
-    let kAnimationDuration = 1.5
+    var kAnimationDuration = 1.5
+    var kReverseAnimation = false
+    var kReverseAlphaAnimation = false
+    
+    var transmitterState: TransmitterState {
+        didSet{
+            self.updateAppearanceForState(self.transmitterState)
+        }
+    }
 
-    @IBInspectable var circleColor : UIColor?
+    @IBInspectable var circleColor : UIColor?{
+        didSet{
+            self.updateProperties()
+        }
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        transmitterState = .NotAvailable
+        super.init(coder: aDecoder)
+    }
     
     override class func layerClass() -> AnyClass{
         return CAShapeLayer.classForCoder()
@@ -33,9 +50,54 @@ class PulseCircle: UIView {
         layer.fillColor = self.circleColor?.CGColor
     }
     
+    func updateConstantsForState(state : TransmitterState){
+        switch state{
+        case .Receiving:
+            kAnimationDuration = 0.3
+        case .Sending:
+            kAnimationDuration = 0.5
+        case .NotAvailable:
+            kAnimationDuration = 2.0
+        case .Idle:
+            kAnimationDuration = 1.5
+        }
+        
+        
+        switch state{
+        case .Receiving:
+            kReverseAnimation = true
+            kReverseAlphaAnimation = false
+        case .Sending:
+            kReverseAnimation = false
+            kReverseAlphaAnimation = false
+        case .Idle:
+            kReverseAnimation = false
+            kReverseAlphaAnimation = false
+        case .NotAvailable:
+            kReverseAnimation = false
+            kReverseAlphaAnimation = false
+        }
+    }
+    
+    func updateAppearanceForState(state : TransmitterState){
+        self.updateConstantsForState(state)
+        
+        self.attachAnimations()
+        self.updateProperties()
+    }
+    
     func attachAnimations() {
         self.attachAlphaAnimations()
         self.attachSizeAnimations()
+    }
+    
+    func updateProperties(){
+        println("update properties of PulseCircle")
+//        self.layer.removeAllAnimations()
+        
+        
+        self.attachAnimations()
+        self.setLayerProperties()
     }
     
     func attachAlphaAnimations() {
@@ -43,6 +105,11 @@ class PulseCircle: UIView {
 
         animation.fromValue = 0.8
         animation.toValue = 0.0
+        animation.autoreverses = kReverseAlphaAnimation
+
+        if kReverseAlphaAnimation {
+            animation.duration = animation.duration / 2
+        }
         
         self.layer.addAnimation(animation, forKey: animation.keyPath)
     }
@@ -53,6 +120,7 @@ class PulseCircle: UIView {
         var scaleFactor : CGFloat = 1.5
         var transform : CATransform3D = CATransform3DMakeScale(scaleFactor, scaleFactor, 1.0)
         animation.toValue = NSValue(CATransform3D: transform)
+        animation.autoreverses = kReverseAnimation
         
         self.layer.addAnimation(animation, forKey: animation.keyPath)
     }

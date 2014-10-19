@@ -33,7 +33,8 @@ class MasterViewController: UIViewController, UITableViewDataSource, MCBrowserVi
     }
 
     func updateRecordButtonState() {
-//        self.recordButton.enabled = self.connectedPeers.count > 0
+//        self.recordButton.enabled = self.recordButton.enabled
+        self.recordButton.enabled = self.connectedPeers.count > 0
     }
 
     // MARK: MCBrowserViewControllerDelegate
@@ -91,10 +92,12 @@ class MasterViewController: UIViewController, UITableViewDataSource, MCBrowserVi
                 strongSelf.sessionContainer.sendData(dataToSend)
             }
         }
+        
     }
 
     func speakButtonWasReleased(speakButton: SpeakButton) {
         self.audioEngine.stopRecord()
+        
     }
 
     // MARK: - UITableViewDataSource

@@ -7,6 +7,7 @@
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="SpeakButton" customModule="WalkieTalkie" customModuleProvider="target">
             <connections>
                 <outlet property="overlayButton" destination="BwU-f6-jgf" id="OWA-o6-vVJ"/>
+                <outlet property="pulsar" destination="osv-H0-p0d" id="Pka-W9-1Z7"/>
                 <outlet property="titleLabel" destination="FZU-6F-b7n" id="dlL-6a-f9O"/>
             </connections>
         </placeholder>
@@ -15,6 +16,10 @@
             <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <subviews>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="osv-H0-p0d" customClass="PulseCircle" customModule="WalkieTalkie" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="BwU-f6-jgf">
                     <rect key="frame" x="0.0" y="0.0" width="200" height="200"/>
                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
@@ -36,9 +41,13 @@
                 <constraint firstItem="FZU-6F-b7n" firstAttribute="top" secondItem="Uhf-ev-X36" secondAttribute="top" constant="18" id="42p-Up-omq"/>
                 <constraint firstAttribute="bottom" secondItem="BwU-f6-jgf" secondAttribute="bottom" id="4AR-NL-gph"/>
                 <constraint firstAttribute="trailing" secondItem="FZU-6F-b7n" secondAttribute="trailing" constant="19" id="956-f1-AEq"/>
+                <constraint firstItem="osv-H0-p0d" firstAttribute="top" secondItem="Uhf-ev-X36" secondAttribute="top" id="CNj-oG-SbY"/>
                 <constraint firstItem="FZU-6F-b7n" firstAttribute="leading" secondItem="Uhf-ev-X36" secondAttribute="leading" constant="19" id="CeE-aA-X6f"/>
                 <constraint firstAttribute="centerX" secondItem="FZU-6F-b7n" secondAttribute="centerX" id="E9I-Do-Iiw"/>
+                <constraint firstItem="osv-H0-p0d" firstAttribute="leading" secondItem="Uhf-ev-X36" secondAttribute="leading" id="Qqu-cR-zC3"/>
+                <constraint firstAttribute="trailing" secondItem="osv-H0-p0d" secondAttribute="trailing" id="SFs-08-RtY"/>
                 <constraint firstAttribute="centerY" secondItem="FZU-6F-b7n" secondAttribute="centerY" id="SMo-wn-4Ge"/>
+                <constraint firstAttribute="bottom" secondItem="osv-H0-p0d" secondAttribute="bottom" id="dkY-uu-KoN"/>
                 <constraint firstItem="BwU-f6-jgf" firstAttribute="leading" secondItem="Uhf-ev-X36" secondAttribute="leading" id="iqP-PC-zFH"/>
                 <constraint firstItem="BwU-f6-jgf" firstAttribute="top" secondItem="Uhf-ev-X36" secondAttribute="top" id="myS-3U-utT"/>
                 <constraint firstAttribute="bottom" secondItem="FZU-6F-b7n" secondAttribute="bottom" constant="19" id="oN3-WE-28s"/>
@@ -52,7 +61,7 @@
                     <exclude reference="42p-Up-omq"/>
                 </mask>
             </variation>
-            <point key="canvasLocation" x="121" y="178"/>
+            <point key="canvasLocation" x="-29" y="215"/>
         </view>
     </objects>
 </document>

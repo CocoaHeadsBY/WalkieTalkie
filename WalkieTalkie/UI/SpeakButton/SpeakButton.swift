@@ -14,19 +14,62 @@ import UIKit
     func speakButtonWasReleased(speakButton: SpeakButton)
 }
 
-class SpeakButton : UIView {
+@objc protocol SpeakButtonProtocol{
+    
+    func didReceiveSoundAtLevel(level : Float)
+}
+
+
+enum TransmitterState{
+    case
+    NotAvailable,
+    Idle,
+    Sending,
+    Receiving
+}
+
+
+class SpeakButton : UIView, SpeakButtonProtocol {
+    
     @IBOutlet weak var overlayButton : UIButton!
     @IBOutlet weak var delegate: SpeakButtonDelegate?
     @IBOutlet weak var titleLabel : UILabel!
-
+    @IBOutlet weak var pulsar: PulseCircle!
+    
+    var transmitterState: TransmitterState {
+        didSet{
+            println(transmitterState)
+            self.pulsar.transmitterState = transmitterState
+        }
+    }
+    
+    required init(coder aDecoder: NSCoder) {
+        transmitterState = .NotAvailable
+        super.init(coder: aDecoder)
+    }
+    
     var enabled : Bool {
         get{
             return overlayButton.enabled
         }
         set{
             overlayButton.enabled = newValue
+            self.transmitterState = newValue ? .Idle : .NotAvailable
+            
             self.updateTitleLabel()
             self.updateBackgroundColor()
+        }
+    }
+    
+    func tryToSetTransmitterState(newState : TransmitterState){
+        
+        switch (self.transmitterState, newState){
+        case (.NotAvailable, _):
+            break
+        case (.Sending, .Receiving):
+            break
+        default:
+            self.transmitterState = newState
         }
     }
     
@@ -60,18 +103,29 @@ class SpeakButton : UIView {
     func updateTitleLabel() {
         var newText : NSString
 
-        switch (self.overlayButton.enabled, self.overlayButton.highlighted) {
-
-        case (false, _):
+//        switch (self.overlayButton.enabled, self.overlayButton.highlighted) {
+//
+//        case (false, _):
+//            newText = "WAIT"
+//            
+//        case (_, true):
+//            newText = "ON AIR"
+//            
+//        case (_, false):
+//            newText = "HOLD\n&\nSPEAK"
+//            
+//        default:
+//            newText = ""
+//        }
+        
+        switch self.transmitterState {
+        case .NotAvailable:
             newText = "WAIT"
-            
-        case (_, true):
+        case .Sending :
             newText = "ON AIR"
-            
-        case (_, false):
+        case .Idle :
             newText = "HOLD\n&\nSPEAK"
-            
-        default:
+        case .Receiving:
             newText = ""
         }
         
@@ -80,17 +134,32 @@ class SpeakButton : UIView {
 
     func updateBackgroundColor() {
         
-        if (!self.overlayButton.enabled){
-            self.backgroundColor = UIColor.lightGrayColor()
-        }else{
-            if self.overlayButton.highlighted {
-                self.backgroundColor = UIColor(red: 162.0/255, green: 21.0/255, blue: 1.0/255, alpha: 1)
-            }
-            else {
-                self.backgroundColor = UIColor(red: 40.0/255, green: 90.0/255, blue: 145.0/255, alpha: 1)
-            }
+        var backColor : UIColor
+        
+        switch self.transmitterState {
+        case .NotAvailable:
+            backColor = UIColor.lightGrayColor()
+        case .Sending :
+            backColor = UIColor(red: 162.0/255, green: 21.0/255, blue: 1.0/255, alpha: 1)
+        case .Idle :
+            backColor = UIColor(red: 40.0/255, green: 90.0/255, blue: 145.0/255, alpha: 1)
+        case .Receiving:
+            backColor = UIColor(red: 41/255, green: 146.0/255, blue: 58.0/255, alpha: 1)
         }
         
+//        if (!self.overlayButton.enabled){
+//            backColor = UIColor.lightGrayColor()
+//        }else{
+//            if self.overlayButton.highlighted {
+//                backColor = UIColor(red: 162.0/255, green: 21.0/255, blue: 1.0/255, alpha: 1)
+//            }
+//            else {
+//                backColor = UIColor(red: 40.0/255, green: 90.0/255, blue: 145.0/255, alpha: 1)
+//            }
+//        }
+        
+        self.backgroundColor = backColor
+        self.pulsar.circleColor = backColor
     }
     
     func addViewFromNib() {
@@ -107,6 +176,8 @@ class SpeakButton : UIView {
     func didTouchDown(sender : AnyObject) {
         println("didTouchDown")
         
+        self.tryToSetTransmitterState(.Sending)
+        
         UIView.beginAnimations("TouchDown", context: nil)
         
         self.overlayButton.highlighted = true
@@ -121,6 +192,8 @@ class SpeakButton : UIView {
     func didTouchUp(sender : AnyObject) {
         println("didTouchUp")
         
+        self.tryToSetTransmitterState(.Idle)
+        
         UIView.beginAnimations("TouchUp", context: nil)
 
         self.overlayButton.highlighted = false
@@ -130,5 +203,19 @@ class SpeakButton : UIView {
         UIView.commitAnimations()
         
         delegate?.speakButtonWasReleased(self)
+    }
+    
+    func didReceiveSoundAtLevel(level : Float) {
+        
+        self.tryToSetTransmitterState(.Receiving)
+        
+        UIView.animateWithDuration(0.5, animations: { () -> Void in
+            
+            self.updateBackgroundColor()
+            
+        }) { (_) -> Void in
+            self.updateBackgroundColor()
+        }
+        
     }
 }

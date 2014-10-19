@@ -17,7 +17,6 @@
 		6530BBA619F2AB6700C4AF2D /* UIButton+BackgroundColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6530BBA519F2AB6700C4AF2D /* UIButton+BackgroundColor.swift */; };
 		6530BBA819F2B45A00C4AF2D /* SpeakButton.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6530BBA719F2B45A00C4AF2D /* SpeakButton.xib */; };
 		654C99F219F271AF0091BA06 /* SpeakButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654C99F119F271AF0091BA06 /* SpeakButton.swift */; };
-		654C99F319F271B20091BA06 /* SpeakButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654C99F119F271AF0091BA06 /* SpeakButton.swift */; };
 		654C99F719F27ED70091BA06 /* MasterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 654C99F519F27ED70091BA06 /* MasterViewController.swift */; };
 		8FA06F7119F2BD7C001E99BD /* AudioQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 8FA06F7019F2BD7C001E99BD /* AudioQueue.m */; };
 		8FDB86D919F26909008C667A /* AudioEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FDB86D819F26909008C667A /* AudioEngine.swift */; };
@@ -291,7 +290,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				654C99F319F271B20091BA06 /* SpeakButton.swift in Sources */,
 				50ECCE2C19F18C38007A65D5 /* WalkieTalkieTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -418,6 +416,7 @@
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "WalkieTalkie/WalkieTalkie-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -433,6 +432,7 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "WalkieTalkie/WalkieTalkie-Bridging-Header.h";
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};
