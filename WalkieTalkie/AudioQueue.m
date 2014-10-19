@@ -11,7 +11,7 @@
 #define NUMBER_OF_CHANNELS 2
 
 static AudioStreamBasicDescription asbdAAC = {
-    .mSampleRate = 8000,
+    .mSampleRate = 44100,
     .mFormatID = kAudioFormatLinearPCM,
     .mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian,
     .mBytesPerPacket = 4,
@@ -158,6 +158,15 @@ static void audioQueueOutputCallback(void *                  inUserData,
 }
 
 - (void)decodeData:(NSData *)data toBuffer:(AVAudioPCMBuffer *)buffer {
+    
+//    [data getBytes:buffer.mutableAudioBufferList->mBuffers[0].mData range:NSMakeRange(sizeof(Float64), data.length - sizeof(Float64))];
+    
+    memcpy(buffer.mutableAudioBufferList->mBuffers[0].mData, data.bytes, data.length - sizeof(Float64));
+    buffer.mutableAudioBufferList->mBuffers[0].mNumberChannels = 2;
+    buffer.mutableAudioBufferList->mBuffers[0].mDataByteSize = 32 * 4;
+    buffer.frameLength = 32;
+    
+    return;
 
     [data getBytes:buffer.mutableAudioBufferList->mBuffers[0].mData range:NSMakeRange(sizeof(Float64), data.length - sizeof(Float64))];
     buffer.frameLength = (data.length - sizeof(Float64)) / 4;

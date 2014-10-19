@@ -10,8 +10,7 @@ import Foundation
 import AVFoundation
 import MultipeerConnectivity
 
-var asbd = AudioStreamBasicDescription(
-    mSampleRate: 8000,
+var asbd = AudioStreamBasicDescription(mSampleRate: 44100,
     mFormatID: AudioFormatID(kAudioFormatLinearPCM),
     mFormatFlags: AudioFormatFlags(kAudioFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian),
     mBytesPerPacket: 4,
@@ -36,10 +35,13 @@ class AudioPlayerDecoder {
 
         println("Received \(data.length)")
 
-        decoder.decodeData(data, toBuffer: buffer)
+        var localBuffer = AVAudioPCMBuffer(PCMFormat: generalFormat, frameCapacity: 128)
+//        decoder.decodeData(data, toBuffer: localBuffer)
 
-        if (buffer.frameLength > 0) {
-            audioPlayer.scheduleBuffer(buffer, completionHandler: { println("Frame played") })
+        println("will play buffer \(buffer)")
+
+        if (localBuffer.frameLength > 0) {
+//            audioPlayer.scheduleBuffer(localBuffer, completionHandler: { println("Frame played") })
         }
     }
 }
@@ -89,9 +91,6 @@ public class AudioEngine {
 
         engine.attachNode(playerDecoder.audioPlayer)
         engine.connect(playerDecoder.audioPlayer, to: engine.mainMixerNode, format: nil)
-        
-        println(playerDecoder.audioPlayer.outputFormatForBus(0))
-        println(engine.mainMixerNode.inputFormatForBus(0))
 
         playerDecoder.audioPlayer.play()
         peerToOutput[peerID] = playerDecoder
