@@ -44,7 +44,7 @@ class PulseCircle: UIView {
     func setLayerProperties() {
         var layer = self.layer as CAShapeLayer
         
-        var minLength : CGFloat = 50.0//min(self.frame.height, self.frame.width)
+        var minLength : CGFloat = 50.0
 
         layer.path = UIBezierPath(ovalInRect: self.bounds).CGPath
         layer.fillColor = self.circleColor?.CGColor
@@ -93,9 +93,7 @@ class PulseCircle: UIView {
     
     func updateProperties(){
         println("update properties of PulseCircle")
-//        self.layer.removeAllAnimations()
-        
-        
+
         self.attachAnimations()
         self.setLayerProperties()
     }

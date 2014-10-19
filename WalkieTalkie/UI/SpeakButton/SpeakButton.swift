@@ -102,21 +102,6 @@ class SpeakButton : UIView, SpeakButtonProtocol {
     
     func updateTitleLabel() {
         var newText : NSString
-
-//        switch (self.overlayButton.enabled, self.overlayButton.highlighted) {
-//
-//        case (false, _):
-//            newText = "WAIT"
-//            
-//        case (_, true):
-//            newText = "ON AIR"
-//            
-//        case (_, false):
-//            newText = "HOLD\n&\nSPEAK"
-//            
-//        default:
-//            newText = ""
-//        }
         
         switch self.transmitterState {
         case .NotAvailable:
@@ -146,17 +131,6 @@ class SpeakButton : UIView, SpeakButtonProtocol {
         case .Receiving:
             backColor = UIColor(red: 41/255, green: 146.0/255, blue: 58.0/255, alpha: 1)
         }
-        
-//        if (!self.overlayButton.enabled){
-//            backColor = UIColor.lightGrayColor()
-//        }else{
-//            if self.overlayButton.highlighted {
-//                backColor = UIColor(red: 162.0/255, green: 21.0/255, blue: 1.0/255, alpha: 1)
-//            }
-//            else {
-//                backColor = UIColor(red: 40.0/255, green: 90.0/255, blue: 145.0/255, alpha: 1)
-//            }
-//        }
         
         self.backgroundColor = backColor
         self.pulsar.circleColor = backColor
@@ -212,9 +186,11 @@ class SpeakButton : UIView, SpeakButtonProtocol {
         UIView.animateWithDuration(0.5, animations: { () -> Void in
             
             self.updateBackgroundColor()
+            self.updateTitleLabel()
             
         }) { (_) -> Void in
             self.updateBackgroundColor()
+            self.updateTitleLabel()
         }
         
     }
