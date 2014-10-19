@@ -9,13 +9,13 @@
 #import "AudioQueue.h"
 
 static AudioStreamBasicDescription asbdAAC = {
-    .mSampleRate = 44100,
+    .mSampleRate = 16000,
     .mFormatID = kAudioFormatLinearPCM,
     .mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian,
-    .mBytesPerPacket = 4,
+    .mBytesPerPacket = 2,
     .mFramesPerPacket = 1,
-    .mBytesPerFrame = 4,
-    .mChannelsPerFrame = 2,
+    .mBytesPerFrame = 2,
+    .mChannelsPerFrame = 1,
     .mBitsPerChannel = 16,
     .mReserved = 0
 };
@@ -27,7 +27,6 @@ static const AudioChannelLayout channelLayout = {
 @interface AudioQueueRecorder () {
     AudioQueueRef inputQueue;
     AudioQueueBufferRef	aqBuffers[3];
-    AudioQueueDecoder * decoder;
 }
 
 - (void)queueInputBuffer:(AudioQueueBufferRef)buffer startTime:(const AudioTimeStamp *)startTime numberPackets:(UInt32)numberPackets packetDescs:(const AudioStreamPacketDescription *)descs;
@@ -92,18 +91,6 @@ static void audioQueueInputCallback(void *                          inUserData,
         NSMutableData *ts = [NSMutableData dataWithBytes:(void *)&startTime->mSampleTime length:sizeof(startTime->mSampleTime)];
         [ts appendBytes:buffer->mAudioData length:buffer->mAudioDataByteSize];
         _dataProducedBlock(ts);
-        
-
-        AVAudioFormat *format = [[AVAudioFormat alloc] initStandardFormatWithSampleRate:8000 channels:1];
-        
-        static dispatch_once_t onceToken;
-        dispatch_once(&onceToken, ^{
-            decoder = [[AudioQueueDecoder alloc] initWithFormat:format.streamDescription];
-        });
-        
-        AVAudioPCMBuffer *buffer = [[AVAudioPCMBuffer alloc] initWithPCMFormat:format frameCapacity:8192];
-        [decoder decodeData:ts toBuffer:buffer];
-
     }
     AudioQueueEnqueueBuffer(inputQueue, buffer, 0, NULL);
 }
@@ -170,15 +157,15 @@ static void audioQueueOutputCallback(void *                  inUserData,
 
 - (void)decodeData:(NSData *)data toBuffer:(AVAudioPCMBuffer *)buffer {
 
+    [data getBytes:buffer.mutableAudioBufferList->mBuffers[0].mData range:NSMakeRange(sizeof(Float64), data.length - sizeof(Float64))];
+    buffer.frameLength = (data.length - sizeof(Float64)) / 2;
+    buffer.mutableAudioBufferList->mBuffers[0].mNumberChannels = 1;
+
+    return;
+
     AudioTimeStamp ts;
     ts.mSampleTime = *((Float64 *)data.bytes);
     ts.mFlags = kAudioTimeStampSampleTimeValid;
-    
-    [data getBytes:buffer.mutableAudioBufferList->mBuffers[0].mData range:NSMakeRange(sizeof(Float64), inputBuffer->mAudioDataByteSize)];
-    buffer.frameLength = (data.length - sizeof(Float64)) / 4;
-    buffer.mutableAudioBufferList->mBuffers[0].mNumberChannels = 2;
-    
-    return;
 
     inputBuffer->mAudioDataByteSize = (UInt32)(data.length - sizeof(Float64));
     [data getBytes:inputBuffer->mAudioData range:NSMakeRange(sizeof(Float64), inputBuffer->mAudioDataByteSize)];
