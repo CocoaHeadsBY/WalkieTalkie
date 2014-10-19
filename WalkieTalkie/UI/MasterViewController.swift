@@ -33,8 +33,8 @@ class MasterViewController: UIViewController, UITableViewDataSource, MCBrowserVi
     }
 
     func updateRecordButtonState() {
-//        self.recordButton.enabled = self.recordButton.enabled
-        self.recordButton.enabled = self.connectedPeers.count > 0
+        self.recordButton.enabled = self.recordButton.enabled
+//        self.recordButton.enabled = self.connectedPeers.count > 0
     }
 
     // MARK: MCBrowserViewControllerDelegate
@@ -55,6 +55,8 @@ class MasterViewController: UIViewController, UITableViewDataSource, MCBrowserVi
 
     func sessionContainer(SessionContainer, didReceiveData data: NSData, fromPeer peerID: MCPeerID) {
         self.audioEngine.didReceive(data, fromPeer: peerID)
+        
+        self.recordButton.didReceiveSoundAtLevel(1.0)
     }
 
     func sessionContainer(SessionContainer, peerConnected peerID: MCPeerID) {

@@ -71,6 +71,9 @@ class SpeakButton : UIView, SpeakButtonProtocol {
         default:
             self.transmitterState = newState
         }
+        
+        self.updateBackgroundColor()
+        self.updateTitleLabel()
     }
     
     func linkEvents() {
@@ -149,7 +152,7 @@ class SpeakButton : UIView, SpeakButtonProtocol {
     
     func didTouchDown(sender : AnyObject) {
         println("didTouchDown")
-        
+
         self.tryToSetTransmitterState(.Sending)
         
         UIView.beginAnimations("TouchDown", context: nil)
@@ -165,7 +168,7 @@ class SpeakButton : UIView, SpeakButtonProtocol {
     
     func didTouchUp(sender : AnyObject) {
         println("didTouchUp")
-        
+
         self.tryToSetTransmitterState(.Idle)
         
         UIView.beginAnimations("TouchUp", context: nil)
@@ -183,15 +186,14 @@ class SpeakButton : UIView, SpeakButtonProtocol {
         
         self.tryToSetTransmitterState(.Receiving)
         
-        UIView.animateWithDuration(0.5, animations: { () -> Void in
+        dispatch_after(dispatch_time(
+            DISPATCH_TIME_NOW,
+            Int64(1 * Double(NSEC_PER_SEC))
+            ), dispatch_get_main_queue(), {
             
-            self.updateBackgroundColor()
-            self.updateTitleLabel()
-            
-        }) { (_) -> Void in
-            self.updateBackgroundColor()
-            self.updateTitleLabel()
-        }
+            self.tryToSetTransmitterState(.Idle)
+        })
+        
         
     }
 }
