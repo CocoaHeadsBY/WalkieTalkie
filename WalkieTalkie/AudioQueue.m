@@ -173,6 +173,12 @@ static void audioQueueOutputCallback(void *                  inUserData,
     AudioTimeStamp ts;
     ts.mSampleTime = *((Float64 *)data.bytes);
     ts.mFlags = kAudioTimeStampSampleTimeValid;
+    
+    [data getBytes:buffer.mutableAudioBufferList->mBuffers[0].mData range:NSMakeRange(sizeof(Float64), inputBuffer->mAudioDataByteSize)];
+    buffer.frameLength = (data.length - sizeof(Float64)) / 4;
+    buffer.mutableAudioBufferList->mBuffers[0].mNumberChannels = 2;
+    
+    return;
 
     inputBuffer->mAudioDataByteSize = (UInt32)(data.length - sizeof(Float64));
     [data getBytes:inputBuffer->mAudioData range:NSMakeRange(sizeof(Float64), inputBuffer->mAudioDataByteSize)];
