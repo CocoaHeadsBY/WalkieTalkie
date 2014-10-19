@@ -8,15 +8,17 @@
 
 #import "AudioQueue.h"
 
+#define NUMBER_OF_CHANNELS 2
+
 static AudioStreamBasicDescription asbdAAC = {
     .mSampleRate = 8000,
-    .mFormatID = kAudioFormatiLBC,
-    .mFormatFlags = 0,
-    .mBytesPerPacket = 50,
-    .mFramesPerPacket = 240,
-    .mBytesPerFrame = 0,
-    .mChannelsPerFrame = 1,
-    .mBitsPerChannel = 0,
+    .mFormatID = kAudioFormatLinearPCM,
+    .mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian,
+    .mBytesPerPacket = 4,
+    .mFramesPerPacket = 1,
+    .mBytesPerFrame = 4,
+    .mChannelsPerFrame = NUMBER_OF_CHANNELS,
+    .mBitsPerChannel = 16,
     .mReserved = 0
 };
 
@@ -157,6 +159,12 @@ static void audioQueueOutputCallback(void *                  inUserData,
 
 - (void)decodeData:(NSData *)data toBuffer:(AVAudioPCMBuffer *)buffer {
 
+    [data getBytes:buffer.mutableAudioBufferList->mBuffers[0].mData range:NSMakeRange(sizeof(Float64), data.length - sizeof(Float64))];
+    buffer.frameLength = (data.length - sizeof(Float64)) / 4;
+    buffer.mutableAudioBufferList->mBuffers[0].mNumberChannels = NUMBER_OF_CHANNELS;
+
+    return;
+
     AudioTimeStamp ts;
     ts.mSampleTime = *((Float64 *)data.bytes);
     ts.mFlags = kAudioTimeStampSampleTimeValid;
@@ -164,11 +172,11 @@ static void audioQueueOutputCallback(void *                  inUserData,
     inputBuffer->mAudioDataByteSize = (UInt32)(data.length - sizeof(Float64));
     [data getBytes:inputBuffer->mAudioData range:NSMakeRange(sizeof(Float64), inputBuffer->mAudioDataByteSize)];
 
-    OSStatus st = AudioQueueOfflineRender(decoderQueue, &ts, outputBuffer, 2048);
+    OSStatus st = AudioQueueOfflineRender(decoderQueue, &ts, outputBuffer, 64);
     NSLog(@"Decoded bytes %d", outputBuffer->mAudioDataByteSize);
     memcpy(buffer.mutableAudioBufferList->mBuffers[0].mData, outputBuffer->mAudioData, outputBuffer->mAudioDataByteSize);
     buffer.mutableAudioBufferList->mBuffers[0].mDataByteSize = outputBuffer->mAudioDataByteSize;
-    buffer.frameLength = outputBuffer->mAudioDataByteSize / 2;
+    buffer.frameLength = outputBuffer->mAudioDataByteSize / 4;
 
     NSAssert(st == noErr, @"AudioQueueOfflineRender failed with err %d", (int)st);
 }

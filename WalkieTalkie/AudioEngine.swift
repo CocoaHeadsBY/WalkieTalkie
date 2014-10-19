@@ -10,20 +10,34 @@ import Foundation
 import AVFoundation
 import MultipeerConnectivity
 
-let generalFormat = AVAudioFormat(standardFormatWithSampleRate: 8000, channels: 1)
+var asbd = AudioStreamBasicDescription(
+    mSampleRate: 8000,
+    mFormatID: AudioFormatID(kAudioFormatLinearPCM),
+    mFormatFlags: AudioFormatFlags(kAudioFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian),
+    mBytesPerPacket: 4,
+    mFramesPerPacket: 1,
+    mBytesPerFrame: 4,
+    mChannelsPerFrame: 2,
+    mBitsPerChannel: 16,
+    mReserved: 0)
+
+let generalFormat = AVAudioFormat(streamDescription: &asbd)
 
 class AudioPlayerDecoder {
     let audioPlayer = AVAudioPlayerNode()
     let decoder: AudioQueueDecoder;
-    let buffer = AVAudioPCMBuffer(PCMFormat: generalFormat, frameCapacity: 8196)
+    let buffer = AVAudioPCMBuffer(PCMFormat: generalFormat, frameCapacity: 64)
 
     init () {
         decoder = AudioQueueDecoder(format: buffer.format.streamDescription)
     }
 
     func decodeAndPlay(data: NSData) {
+
         println("Received \(data.length)")
+
         decoder.decodeData(data, toBuffer: buffer)
+
         if (buffer.frameLength > 0) {
             audioPlayer.scheduleBuffer(buffer, completionHandler: { println("Frame played") })
         }
@@ -72,8 +86,13 @@ public class AudioEngine {
 
     func peerConnected(peerID: MCPeerID) {
         let playerDecoder = AudioPlayerDecoder()
+
         engine.attachNode(playerDecoder.audioPlayer)
-        engine.connect(playerDecoder.audioPlayer, to: engine.mainMixerNode, format: generalFormat)
+        engine.connect(playerDecoder.audioPlayer, to: engine.mainMixerNode, format: nil)
+        
+        println(playerDecoder.audioPlayer.outputFormatForBus(0))
+        println(engine.mainMixerNode.inputFormatForBus(0))
+
         playerDecoder.audioPlayer.play()
         peerToOutput[peerID] = playerDecoder
     }
