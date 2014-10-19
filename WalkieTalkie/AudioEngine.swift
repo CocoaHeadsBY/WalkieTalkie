@@ -15,7 +15,7 @@ let generalFormat = AVAudioFormat(standardFormatWithSampleRate: 8000, channels: 
 class AudioPlayerDecoder {
     let audioPlayer = AVAudioPlayerNode()
     let decoder: AudioQueueDecoder;
-    let buffer = AVAudioPCMBuffer(PCMFormat: generalFormat, frameCapacity: 8196)
+    let buffer = AVAudioPCMBuffer(PCMFormat: generalFormat, frameCapacity: 128)
 
     init () {
         decoder = AudioQueueDecoder(format: buffer.format.streamDescription)
@@ -23,7 +23,9 @@ class AudioPlayerDecoder {
 
     func decodeAndPlay(data: NSData) {
         println("Received \(data.length)")
+        println("buffer before \(buffer)");
         decoder.decodeData(data, toBuffer: buffer)
+        println("buffer after \(buffer)");
 
         if (buffer.frameLength > 0) {
             audioPlayer.scheduleBuffer(buffer, completionHandler: { println("Frame played") })

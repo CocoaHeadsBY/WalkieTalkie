@@ -9,7 +9,7 @@
 #import "AudioQueue.h"
 
 static AudioStreamBasicDescription asbdAAC = {
-    .mSampleRate = 16000,
+    .mSampleRate = 8000,
     .mFormatID = kAudioFormatLinearPCM,
     .mFormatFlags = kAudioFormatFlagIsSignedInteger | kAudioFormatFlagsNativeEndian,
     .mBytesPerPacket = 2,
