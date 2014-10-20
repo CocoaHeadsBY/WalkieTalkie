@@ -46,7 +46,7 @@
 * Up to 8 devices can participate
 * Swift, C, Objective-C
 
-**Source code:** *https://github.com/notorca/walkietalkie/*
+**Source code:** *https://github.com/CocoaHeadsBY/WalkieTalkie*
 
 ---
 
